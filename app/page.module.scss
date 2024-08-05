@@ -12,13 +12,11 @@
   gap: 1rem;
   font-size: 1.2rem;
   margin: 1rem;
-  justify-content: center;
-  align-items: center;
 
 
   svg {
     width: 2rem;
-    fill: var(--accent-color);
+    fill: #3b82f6;
   }
 }
 
@@ -28,15 +26,4 @@
   align-items: center;
   justify-content: center;
   gap: 2rem;
-}
-
-@media screen and (max-width: 768px) {
-  .main {
-    padding: 1rem;
-  }
-
-  .tripContainer {
-    max-height: 80%;
-  }
-  
 }
