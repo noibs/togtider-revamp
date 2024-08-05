@@ -16,6 +16,16 @@
         width: 1.5rem;
         fill: #fff;
     }
+
+    @media screen and (max-width: 768px) {
+        margin: 1rem;
+        width: 7.5rem;
+        border-radius: 2rem;
+
+        svg {
+            width: 1.2rem;
+        }
+    }
 }
 
 .refreshBtn:hover {

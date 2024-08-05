@@ -5,6 +5,8 @@
   align-items: center;
   padding: 6rem;
   min-height: 100vh;
+
+
 }
 
 .header {
@@ -13,17 +15,36 @@
   font-size: 1.2rem;
   margin: 1rem;
 
-
   svg {
     width: 2rem;
     fill: #3b82f6;
   }
 }
 
-.tripContainer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
+@media screen and (max-width: 768px) {
+  .main {
+    padding: 0rem;
+    justify-content: flex-start;
+    font-size: 70%;
+    height: 80vh;
+    overflow: hidden;
+
+    p {
+      font-size: 0.9rem;
+    }
+
+    svg {
+      width: .8rem;
+    }
+
+  }
+
+  .header {
+    font-size: .7rem;
+    margin: .7rem;
+
+    svg {
+      width: 1.3rem;
+    }
+  }
 }

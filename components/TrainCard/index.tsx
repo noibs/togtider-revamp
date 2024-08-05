@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "./page.module.scss";
 
-let isDelayed = true;
-
 interface Props {
   startLoc: string;
   endLoc: string;
@@ -10,6 +8,8 @@ interface Props {
   endTime: string;
   startTrack: string;
   endTrack: string;
+  delayedStart?: string;
+  delayedEnd?: string;
 }
 
 const TrainCard = ({
@@ -19,18 +19,20 @@ const TrainCard = ({
   endTime,
   startTrack,
   endTrack,
+  delayedStart,
+  delayedEnd,
 }: Props) => {
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer} id="location">
         <span className={styles.span}>
           <h2 className={styles.stationName}>{startLoc}</h2>
-          <p className={styles.time}>{startTime}</p>
+          <h2 className={styles.time}>{delayedStart || startTime}</h2>
         </span>
 
         <span className={styles.span}>
           <p className={styles.track}>Spor: {startTrack}</p>
-          {isDelayed && <p className={styles.delayed}>{startTime}</p>}
+          {delayedStart && <h2 className={styles.delayed}>{startTime}</h2>}
         </span>
       </div>
 
@@ -44,11 +46,11 @@ const TrainCard = ({
       <div className={styles.infoContainer} id="destination">
         <span className={styles.span}>
           <h2 className={styles.stationName}>{endLoc}</h2>
-          <p className={styles.time}>{endTime}</p>
+          <h2 className={styles.time}>{delayedEnd || endTime}</h2>
         </span>
         <span className={styles.span}>
           <p className={styles.track}>Spor: {endTrack}</p>
-          {isDelayed && <p className={styles.delayed}>{endTime}</p>}
+          {delayedEnd && <h2 className={styles.delayed}>{endTime}</h2>}
         </span>
       </div>
     </div>
