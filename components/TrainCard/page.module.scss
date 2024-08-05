@@ -1,0 +1,28 @@
+.container {
+    width: 300px;
+    border: 1px solid #ddd;
+    padding: 25px;
+    border-radius: 2vh;
+}
+
+.span {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.time {
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+
+
+
+
+
+
+.arrow {
+    width: 25px;
+    margin: 10px;
+}
