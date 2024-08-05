@@ -1,6 +1,8 @@
 import React from "react";
 import styles from "./page.module.scss";
 
+let isDelayed = true;
+
 interface Props {
   startLoc: string;
   endLoc: string;
@@ -25,8 +27,13 @@ const TrainCard = ({
           <h2 className={styles.stationName}>{startLoc}</h2>
           <p className={styles.time}>{startTime}</p>
         </span>
-        <p className={styles.track}>Spor: {startTrack}</p>
+
+        <span className={styles.span}>
+          <p className={styles.track}>Spor: {startTrack}</p>
+          {isDelayed && <p className={styles.delayed}>{startTime}</p>}
+        </span>
       </div>
+
       <div className={styles.arrow}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
           {/*Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.*/}
@@ -39,7 +46,10 @@ const TrainCard = ({
           <h2 className={styles.stationName}>{endLoc}</h2>
           <p className={styles.time}>{endTime}</p>
         </span>
-        <p className={styles.track}>Spor: {endTrack}</p>
+        <span className={styles.span}>
+          <p className={styles.track}>Spor: {endTrack}</p>
+          {isDelayed && <p className={styles.delayed}>{endTime}</p>}
+        </span>
       </div>
     </div>
   );

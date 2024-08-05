@@ -2,7 +2,6 @@ import Image from "next/image";
 import styles from "./page.module.scss";
 import TrainCard from "@/components/TrainCard";
 import RefreshBtn from "@/components/RefreshBtn";
-<<<<<<< HEAD
 import Watermark from "@/components/Watermark";
 import TripsContainer from "@/components/TripsContainer";
 
