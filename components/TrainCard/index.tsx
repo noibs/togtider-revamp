@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./page.module.scss";
-import { getData } from "@/components/GetData";
 
 interface Props {
   startLoc: string;
@@ -10,10 +9,6 @@ interface Props {
   startTrack: string;
   endTrack: string;
 }
-
-const data = getData();
-
-console.log(data);
 
 const TrainCard = ({
   startLoc,
