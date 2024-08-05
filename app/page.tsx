@@ -3,6 +3,7 @@ import styles from "./page.module.scss";
 import TrainCard from "@/components/TrainCard";
 import RefreshBtn from "@/components/RefreshBtn";
 import Watermark from "@/components/Watermark";
+import TripsContainer from "@/components/TripsContainer";
 
 export default function Home() {
   return (
@@ -15,32 +16,7 @@ export default function Home() {
           </svg>
           <h1>Togtider</h1>
         </div>
-        <div className={styles.tripContainer}>
-          <TrainCard
-            startLoc="Ringsted St."
-            endLoc="Roskilde St."
-            startTime="10:00"
-            endTime="10:32"
-            startTrack="1"
-            endTrack="4"
-          />
-          <TrainCard
-            startLoc="Ringsted St."
-            endLoc="Roskilde St."
-            startTime="10:00"
-            endTime="10:32"
-            startTrack="1"
-            endTrack="4"
-          />
-          <TrainCard
-            startLoc="Ringsted St."
-            endLoc="Roskilde St."
-            startTime="10:00"
-            endTime="10:32"
-            startTrack="1"
-            endTrack="4"
-          />
-        </div>
+        <TripsContainer />
         <RefreshBtn />
       </main>
       <Watermark />

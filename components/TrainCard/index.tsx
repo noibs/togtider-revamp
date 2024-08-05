@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./page.module.scss";
+import { getData } from "@/components/GetData";
 
 let isDelayed = true;
 
@@ -11,6 +12,10 @@ interface Props {
   startTrack: string;
   endTrack: string;
 }
+
+const data = getData();
+
+console.log(data);
 
 const TrainCard = ({
   startLoc,
