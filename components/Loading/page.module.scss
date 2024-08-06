@@ -1,14 +1,20 @@
 .loadContainer {
     display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-bottom: 100px;
-    z-index: 1;
+    width: 100vw;
+    height: 100dvh;
+    z-index: -1;
 
+    justify-content: center;
+    align-items: center;
+
+    svg {
+        width: 100px;
+        height: 100px;
+        transform-origin: center;
+        animation: load 1.2s ease infinite;
+
+    }
 
 }
 

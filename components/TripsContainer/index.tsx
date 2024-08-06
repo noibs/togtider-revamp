@@ -6,14 +6,16 @@ import RefreshBtn from '../RefreshBtn';
 import Loading from '../Loading';
 import SkeletonLoader from '../SkeletonLoader';
 
+let loadSkeleton = true;
 let loading = true;
 
 export const fetchTrips = async () => {
   const roskildeId = '6555';
-  const borupId = '5426';
-  let originId = borupId;
+  const ringstedId = '39761';
+  let originId = ringstedId;
   let destId = roskildeId;
 
+  loading = true;
   const tripContainer = document.querySelectorAll('#trip');
   tripContainer.forEach((element) => element.classList.add('loading'));
 
@@ -50,12 +52,14 @@ export const fetchTrips = async () => {
       : null;
 
     tripContainer.forEach((element) => element.classList.remove('loading'));
+    loadSkeleton = false;
     loading = false;
     return { trip1, trip2, trip3 };
   } catch (error) {
     console.error('Failed to fetch trips:', error);
     tripContainer.forEach((element) => element.classList.remove('loading'));
 
+    loadSkeleton = false;
     loading = false;
     return { trip1: null, trip2: null, trip3: null };
   }
@@ -76,7 +80,7 @@ const TripsContainer = () => {
   return (
     <>
       <div className={styles.tripContainer} id="tripContainer">
-        {loading && (
+        {loadSkeleton && (
           <>
             <SkeletonLoader height="200px" width="300px" />
             <SkeletonLoader height="200px" width="300px" />
@@ -91,7 +95,7 @@ const TripsContainer = () => {
           <h2>No trips were found.</h2>
         )}
       </div>
-      {/* <Loading /> */}
+      {loading && <Loading />}
       <RefreshBtn onClick={updateTrips} />
     </>
   );
