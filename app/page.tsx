@@ -1,9 +1,9 @@
-import Image from "next/image";
-import styles from "./page.module.scss";
-import TrainCard from "@/components/TrainCard";
-import RefreshBtn from "@/components/RefreshBtn";
-import Watermark from "@/components/Watermark";
-import TripsContainer from "@/components/TripsContainer";
+import Image from 'next/image';
+import styles from './page.module.scss';
+import TrainCard from '@/components/TrainCard';
+import RefreshBtn from '@/components/RefreshBtn';
+import Watermark from '@/components/Watermark';
+import TripsContainer from '@/components/TripsContainer';
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
           <h1>Togtider</h1>
         </div>
         <TripsContainer />
-        <RefreshBtn />
+        {/* <RefreshBtn /> */}
       </main>
       <Watermark />
     </>

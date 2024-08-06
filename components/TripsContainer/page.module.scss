@@ -1,19 +1,19 @@
 .tripContainer {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  transition: all 2s ease;
+  gap: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+  .tripContainer {
+    gap: .5rem;
+
+
   }
 
-  @media screen and (max-width: 768px) {
-    .tripContainer {
-      gap: .5rem;
 
 
-    }
-  
-
-    
-  }
-  
+}

@@ -10,7 +10,7 @@
 
     @media screen and (max-width: 768px) {
         width: 60vw;
-        
+
     }
 }
 
@@ -41,9 +41,12 @@
     height: 3px;
     width: 100%;
     display: block;
-    position: absolute; /* Position the pseudo-element absolutely */
-    top: 50%; /* Adjust the top position to place it over the text */
-    transform: translateY(-50%); /* Center the line vertically */
+    position: absolute;
+    /* Position the pseudo-element absolutely */
+    top: 50%;
+    /* Adjust the top position to place it over the text */
+    transform: translateY(-50%);
+    /* Center the line vertically */
 }
 
 .arrow {

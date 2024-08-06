@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './page.module.scss';
 
 interface Trip {
@@ -30,7 +30,7 @@ const TrainCard = ({ trip }: { trip: Trip }) => {
   let endTrack = trip.Destination.rtTrack || trip.Destination.track;
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} id="trip">
       <div className={styles.infoContainer} id="location">
         <span className={styles.span}>
           <h2 className={styles.stationName}>{startLoc}</h2>
