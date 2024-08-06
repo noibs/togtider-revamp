@@ -1,27 +1,34 @@
-import React from "react";
-import styles from "./page.module.scss";
+import React from 'react';
+import styles from './page.module.scss';
 
-interface Props {
-  startLoc: string;
-  endLoc: string;
-  startTime: string;
-  endTime: string;
-  startTrack: string;
-  endTrack: string;
-  delayedStart?: string;
-  delayedEnd?: string;
+interface Trip {
+  Origin: {
+    name: string;
+    time: string;
+    rtTime?: string;
+    rtTrack?: string;
+    track: string;
+  };
+  Destination: {
+    name: string;
+    time: string;
+    rtTime?: string;
+    rtTrack?: string;
+    track: string;
+  };
 }
 
-const TrainCard = ({
-  startLoc,
-  endLoc,
-  startTime,
-  endTime,
-  startTrack,
-  endTrack,
-  delayedStart,
-  delayedEnd,
-}: Props) => {
+const TrainCard = ({ trip }: { trip: Trip }) => {
+  let startLoc = trip.Origin.name;
+  let startTime = trip.Origin.time;
+  let delayedStart = trip.Origin.rtTime;
+  let startTrack = trip.Origin.rtTrack || trip.Origin.track;
+
+  let endLoc = trip.Destination.name;
+  let endTime = trip.Destination.time;
+  let delayedEnd = trip.Destination.rtTime;
+  let endTrack = trip.Destination.rtTrack || trip.Destination.track;
+
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer} id="location">
