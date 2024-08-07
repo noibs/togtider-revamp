@@ -3,18 +3,20 @@ import React, { useState, useEffect } from 'react';
 import TrainCard from '@/components/TrainCard';
 import styles from './page.module.scss';
 import RefreshBtn from '../RefreshBtn';
+import SwapBtn from '../SwapBtn';
 import Loading from '../Loading';
 import SkeletonLoader from '../SkeletonLoader';
+import BtnContainer from '../BtnContainer';
 
 let loadSkeleton = true;
 let loading = true;
 
-export const fetchTrips = async () => {
-  const roskildeId = '6555';
-  const ringstedId = '39761';
-  let originId = ringstedId;
-  let destId = roskildeId;
+const roskildeId = '6555';
+const ringstedId = '39761';
+let originId = ringstedId;
+let destId = roskildeId;
 
+export const fetchTrips = async () => {
   loading = true;
   const tripContainer = document.querySelectorAll('#trip');
   tripContainer.forEach((element) => element.classList.add('loading'));
@@ -73,6 +75,15 @@ const TripsContainer = () => {
     setTrips(newTrips);
   };
 
+  const swapTrips = async () => {
+    let tempOrigin = originId;
+    let tempDest = destId;
+    originId = tempDest;
+    destId = tempOrigin;
+    const newTrips = await fetchTrips();
+    setTrips(newTrips);
+  };
+
   useEffect(() => {
     updateTrips();
   }, []);
@@ -96,7 +107,7 @@ const TripsContainer = () => {
         )}
       </div>
       {loading && <Loading />}
-      <RefreshBtn onClick={updateTrips} />
+      <BtnContainer refreshBtn={updateTrips} swapBtn={swapTrips} />
     </>
   );
 };

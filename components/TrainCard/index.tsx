@@ -39,7 +39,13 @@ const TrainCard = ({ trip }: { trip: Trip }) => {
 
         <span className={styles.span}>
           <p className={styles.track}>Spor: {startTrack}</p>
-          {delayedStart && <h2 className={styles.delayed}>{startTime}</h2>}
+          {delayedStart ? (
+            <h2 className={styles.delayed}>{startTime}</h2>
+          ) : (
+            <h2 id="placeholder" className={styles.delayed}>
+              10:00
+            </h2>
+          )}
         </span>
       </div>
 
@@ -57,7 +63,13 @@ const TrainCard = ({ trip }: { trip: Trip }) => {
         </span>
         <span className={styles.span}>
           <p className={styles.track}>Spor: {endTrack}</p>
-          {delayedEnd && <h2 className={styles.delayed}>{endTime}</h2>}
+          {delayedEnd ? (
+            <h2 className={styles.delayed}>{endTime}</h2>
+          ) : (
+            <h2 id="placeholder" className={styles.delayed}>
+              10:00
+            </h2>
+          )}
         </span>
       </div>
     </div>

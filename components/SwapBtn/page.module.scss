@@ -1,9 +1,9 @@
-.refreshBtn {
-    width: 3.5rem;
-    height: 3.5rem;
+.swapBtn {
+    width: 3rem;
+    height: 3rem;
     border: 3px solid #ddd;
     border-radius: .75rem;
-    background-color: #3b82f6;
+    background-color: #fff;
     cursor: pointer;
 
     transition-duration: 0.2s;
@@ -12,8 +12,9 @@
 
 
     svg {
-        width: 1.5rem;
-        fill: #fff;
+        width: 1.7rem;
+        height: 1.7rem;
+        fill: #181818;
     }
 
     @media screen and (max-width: 768px) {
@@ -26,11 +27,11 @@
     }
 }
 
-.refreshBtn:hover {
-    background-color: #2563eb;
+.swapBtn:hover {
+    background-color: #e8e8e8;
     scale: 1.1;
 }
 
-.refreshBtn:active {
+.swapBtn:active {
     scale: .9;
 }
