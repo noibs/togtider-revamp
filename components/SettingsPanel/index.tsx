@@ -1,15 +1,12 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './page.module.scss';
 
 const SettingsPanel = () => {
   let container: HTMLElement | null;
 
-  useEffect(() => {
-    container = document.querySelector('#settingsContainer');
-  }, []);
-
   const closePanel = () => {
+    container = document.querySelector('#settingsContainer');
     if (container) {
       container.style.opacity = '0';
       setTimeout(() => {
@@ -25,7 +22,7 @@ const SettingsPanel = () => {
         <span className={styles.head}>
           <h2>Indstillinger</h2>
           <button className={styles.x} onClick={closePanel}>
-            <i className="fa-solid fa-xmark" />
+            <i className="fa-regular fa-xmark" />
           </button>
         </span>
 
@@ -40,16 +37,19 @@ const SettingsPanel = () => {
           </div>
 
           <div className={styles.setting}>
-            <h3>Skift sprog</h3>
+            <h3>Sprogskifte</h3>
             <p>Togtider er også tilgængelig på engelsk. Skift forneden:</p>
-            <button>Sprogskifte</button>
+            <button>Skift sprog</button>
           </div>
         </div>
 
         <div className={styles.footer}>
           <span>
             Lavet med ❤️ af Elliott, tjek siden på{' '}
-            <a href="https://github.com/noibs/togtider-revamp">Github</a>.
+            <a className="link" href="https://github.com/noibs/togtider-revamp">
+              Github
+            </a>
+            .
           </span>
         </div>
       </div>

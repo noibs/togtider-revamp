@@ -1,15 +1,12 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './page.module.scss';
 
 const SearchPanel = () => {
   let container: HTMLElement | null;
 
-  useEffect(() => {
-    container = document.querySelector('#settingsContainer');
-  }, []);
-
   const closePanel = () => {
+    container = document.querySelector('#searchContainer');
     if (container) {
       container.style.opacity = '0';
       setTimeout(() => {

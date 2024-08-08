@@ -7,15 +7,28 @@ import SearchBtn from '../Buttons/SearchBtn';
 const BtnContainer = ({
   refreshBtn,
   swapBtn,
-  searchBtn,
 }: {
   refreshBtn: () => void;
   swapBtn: () => void;
-  searchBtn?: () => void;
 }) => {
+  const openSearchPanel = () => {
+    const searchContainer = document.querySelector(
+      '#searchContainer'
+    ) as HTMLElement;
+    if (searchContainer) {
+      searchContainer.setAttribute('data-enabled', '');
+      setTimeout(() => {
+        searchContainer.style.opacity = '1';
+      }, 10);
+    }
+  };
+
   return (
     <div className={styles.btnContainer}>
-      <SearchBtn styles={`${styles.btn} ${styles.secondaryBtn}`} />
+      <SearchBtn
+        click={openSearchPanel}
+        styles={`${styles.btn} ${styles.secondaryBtn}`}
+      />
       <RefreshBtn
         styles={`${styles.btn} ${styles.primaryBtn}`}
         click={refreshBtn}

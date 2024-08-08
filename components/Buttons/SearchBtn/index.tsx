@@ -1,11 +1,6 @@
 'use client';
 import React from 'react';
-import {
-  cubicBezier,
-  easeIn,
-  motion,
-  useAnimationControls,
-} from 'framer-motion';
+import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
 let isFetching = false;
 
@@ -26,7 +21,7 @@ const SearchBtn = ({
     const easing = cubicBezier(0.22, 1, 0.36, 1);
 
     controls.start({
-      rotate: [0, 40, 0],
+      rotate: [0, 20, 0, 20, 0],
       transition: {
         duration: 1,
         ease: easing,

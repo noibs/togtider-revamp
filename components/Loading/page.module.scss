@@ -13,6 +13,8 @@
         height: 100px;
         transform-origin: center;
         animation: load 1.2s ease infinite;
+        stroke: var(--accent-color);
+        stroke-width: 60px;
 
     }
 

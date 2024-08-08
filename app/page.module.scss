@@ -18,12 +18,12 @@
 
   svg {
     width: 2rem;
-    fill: #3b82f6;
+    fill: var(--accent-color);
   }
 
   i {
     font-size: 2rem;
-    color: #3b82f6;
+    color: var(--accent-color);
 
     @media screen and (max-width: 768px) {
       font-size: 1.4rem;
