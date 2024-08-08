@@ -1,11 +1,16 @@
 'use client';
 import React from 'react';
-import styles from './page.module.scss';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
 let isFetching = false;
 
-const RefreshBtn = ({ click }: { click: () => void }) => {
+const RefreshBtn = ({
+  styles,
+  click,
+}: {
+  styles: string;
+  click: () => void;
+}) => {
   const controls = useAnimationControls();
 
   const handleClick = () => {
@@ -28,11 +33,7 @@ const RefreshBtn = ({ click }: { click: () => void }) => {
 
   return (
     <>
-      <button
-        className={styles.refreshBtn}
-        onClick={handleClick}
-        aria-label="refresh"
-      >
+      <button className={styles} onClick={handleClick} aria-label="refresh">
         <motion.svg
           id="refreshIcon"
           xmlns="http://www.w3.org/2000/svg"

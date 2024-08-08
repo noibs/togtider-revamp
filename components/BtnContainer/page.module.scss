@@ -3,4 +3,82 @@
     gap: 1rem;
     align-items: center;
     margin: 1rem;
+
+    @media screen and (max-width: 768px) {
+        gap: 0.5rem;
+
+    }
+}
+
+
+.btn {
+    $btnSize: 3rem;
+
+    height: $btnSize;
+    width: $btnSize;
+    border: 3px solid #ddd;
+    border-radius: .75rem;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-property: background-color scale;
+
+
+    svg {
+        $iconSize: 50%;
+
+        width: $iconSize;
+        height: $iconSize;
+        fill: #181818;
+    }
+
+    @media screen and (max-width: 768px) {
+        border-radius: 2rem;
+
+    }
+}
+
+.btn:hover {
+    scale: 1.1;
+}
+
+.btn:active {
+    scale: .9;
+}
+
+.primaryBtn {
+    $priBtnSize: 3.5rem;
+
+    width: $priBtnSize;
+    height: $priBtnSize;
+    background-color: #3b82f6;
+
+    svg {
+        fill: #fff;
+    }
+
+    @media screen and (max-width: 768px) {
+        width: 7.5rem;
+        border-radius: 2rem;
+
+        svg {
+            $iconSize: 45%;
+
+            width: $iconSize;
+            height: $iconSize;
+        }
+    }
+}
+
+.primaryBtn:hover {
+    background-color: #2563eb;
+}
+
+.secondaryBtn:hover {
+    background-color: #e8e8e8;
 }

@@ -1,13 +1,15 @@
 import Image from 'next/image';
 import styles from './page.module.scss';
 import TrainCard from '@/components/TrainCard';
-import RefreshBtn from '@/components/RefreshBtn';
 import Watermark from '@/components/Watermark';
 import TripsContainer from '@/components/TripsContainer';
+import ThemeBtn from '@/components/Buttons/ThemeBtn';
+import HeadBtnContainer from '@/components/HeadBtnContainer';
 
 export default function Home() {
   return (
     <>
+      <HeadBtnContainer />
       <main className={styles.main}>
         <div className={styles.header}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
@@ -17,7 +19,6 @@ export default function Home() {
           <h1>Togtider</h1>
         </div>
         <TripsContainer />
-        {/* <RefreshBtn /> */}
       </main>
       <Watermark />
     </>

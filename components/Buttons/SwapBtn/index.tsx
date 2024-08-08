@@ -5,7 +5,7 @@ import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
 let isFetching = false;
 
-const SwapBtn = ({ click }: { click: () => void }) => {
+const SwapBtn = ({ styles, click }: { styles: string; click: () => void }) => {
   const controls = useAnimationControls();
 
   const handleClick = () => {
@@ -28,11 +28,7 @@ const SwapBtn = ({ click }: { click: () => void }) => {
 
   return (
     <>
-      <button
-        className={styles.swapBtn}
-        onClick={handleClick}
-        aria-label="swap"
-      >
+      <button className={styles} onClick={handleClick} aria-label="swap">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="48"
