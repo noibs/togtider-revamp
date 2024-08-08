@@ -20,12 +20,7 @@ const SettingsPanel = () => {
   };
 
   return (
-    <div
-      data-enabled
-      className={styles.container}
-      id="settingsContainer"
-      onClick={closePanel}
-    >
+    <div className={styles.container} id="settingsContainer">
       <div className={styles.card}>
         <span className={styles.head}>
           <h2>Indstillinger</h2>
