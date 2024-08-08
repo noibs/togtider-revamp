@@ -1,3 +1,14 @@
+.loader {
+  display: flex;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  transition: opacity 0.5s ease;
+  background-color: white;
+}
+
 .tripContainer {
   display: flex;
   align-items: center;

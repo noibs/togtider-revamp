@@ -15,8 +15,8 @@ const SwapBtn = ({ styles, click }: { styles: string; click: () => void }) => {
     const easing = cubicBezier(0.25, 1, 0.5, 1);
 
     controls.start({
-      rotate: 900,
-      transition: { duration: 1, ease: easing },
+      rotate: 180,
+      transition: { duration: 0.5, ease: easing },
     });
 
     setTimeout(() => {
@@ -28,7 +28,7 @@ const SwapBtn = ({ styles, click }: { styles: string; click: () => void }) => {
   return (
     <>
       <button className={styles} onClick={handleClick} aria-label="swap">
-        <svg
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="48"
           height="48"
@@ -37,7 +37,11 @@ const SwapBtn = ({ styles, click }: { styles: string; click: () => void }) => {
           <g className="nc-icon-wrapper">
             <path d="M32 34.02V20h-4v14.02h-6L30 42l8-7.98h-6zM18 6l-8 7.98h6V28h4V13.98h6L18 6z"></path>
           </g>
-        </svg>
+        </svg> */}
+        <motion.i
+          animate={controls}
+          className="fa-solid fa-arrow-up-arrow-down"
+        ></motion.i>
       </button>
     </>
   );

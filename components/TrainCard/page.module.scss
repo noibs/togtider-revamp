@@ -1,6 +1,6 @@
 .container {
     width: 300px;
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     padding: 25px;
     border-radius: 2vh;
     background-color: #fff;
@@ -8,8 +8,14 @@
     transition-timing-function: ease-in-out;
     transition-property: box-shadow scale;
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
     @media screen and (max-width: 768px) {
         width: 70vw;
+        height: 23vh;
+        justify-content: space-between;
 
     }
 }

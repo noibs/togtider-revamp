@@ -51,9 +51,20 @@ export const fetchTrips = async () => {
         : data.TripList.Trip[2].Leg
       : null;
 
-    tripContainer.forEach((element) => element.classList.remove('loading'));
+    // 50 ms delay to ensure smooth loading transition.
+    setTimeout(() => {
+      tripContainer.forEach((element) => element.classList.remove('loading'));
+    }, 50);
+
     loadSkeleton = false;
     loading = false;
+
+    const loaderElement = document.querySelector('#loader');
+    loaderElement?.classList.add('loading');
+    setTimeout(() => {
+      loaderElement?.classList.add('hide');
+    }, 500);
+
     return { trip1, trip2, trip3 };
   } catch (error) {
     console.error('Failed to fetch trips:', error);
@@ -61,6 +72,10 @@ export const fetchTrips = async () => {
 
     loadSkeleton = false;
     loading = false;
+
+    const loaderElement = document.querySelector('#loader');
+    loaderElement?.classList.add('loading');
+
     return { trip1: null, trip2: null, trip3: null };
   }
 };
@@ -88,6 +103,7 @@ const TripsContainer = () => {
 
   return (
     <>
+      <div className={styles.loader} id="loader" />
       <div className={styles.tripContainer} id="tripContainer">
         {loadSkeleton && (
           <>
@@ -104,8 +120,10 @@ const TripsContainer = () => {
           <h2>No trips were found.</h2>
         )}
       </div>
+      {!loadSkeleton && (
+        <BtnContainer refreshBtn={updateTrips} swapBtn={swapTrips} />
+      )}
       {loading && <Loading />}
-      <BtnContainer refreshBtn={updateTrips} swapBtn={swapTrips} />
     </>
   );
 };

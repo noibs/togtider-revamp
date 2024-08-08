@@ -41,6 +41,10 @@
         border-radius: 2rem;
 
     }
+
+    i {
+        font-size: 1.3rem;
+    }
 }
 
 .btn:hover {
@@ -58,9 +62,7 @@
     height: $priBtnSize;
     background-color: #3b82f6;
 
-    svg {
-        fill: #fff;
-    }
+    color: #fff;
 
     @media screen and (max-width: 768px) {
         width: 7.5rem;
@@ -72,11 +74,19 @@
             width: $iconSize;
             height: $iconSize;
         }
+
+        i {
+            font-size: 1.5rem;
+        }
     }
 }
 
 .primaryBtn:hover {
     background-color: #2563eb;
+}
+
+.secondaryBtn {
+    color: #181818;
 }
 
 .secondaryBtn:hover {

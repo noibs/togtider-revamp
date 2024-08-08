@@ -32,6 +32,12 @@
         transition: fill 0.2s ease;
     }
 
+    i {
+        transition: color 0.2s ease;
+        font-size: 1rem;
+        color: #ddd;
+    }
+
     @media screen and (max-width: 768px) {
         border-radius: 2rem;
 
@@ -45,8 +51,10 @@
     background-color: #e8e8e8;
     scale: 1.1;
 
-    svg {
+    svg,
+    i {
         fill: #333;
+        color: #333;
     }
 }
 
