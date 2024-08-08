@@ -2,8 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import TrainCard from '@/components/TrainCard';
 import styles from './page.module.scss';
-import RefreshBtn from '../RefreshBtn';
-import SwapBtn from '../SwapBtn';
 import Loading from '../Loading';
 import SkeletonLoader from '../SkeletonLoader';
 import BtnContainer from '../BtnContainer';

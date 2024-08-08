@@ -1,6 +1,5 @@
 'use client';
 import React from 'react';
-import styles from './page.module.scss';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
 let isFetching = false;
