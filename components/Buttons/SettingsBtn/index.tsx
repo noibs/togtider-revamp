@@ -1,5 +1,6 @@
 'use client';
-import React from 'react';
+import React, { useRef } from 'react';
+import style from './page.module.scss';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
 let isFetching = false;
@@ -11,11 +12,23 @@ const SettingsBtn = ({
   styles: string;
   click?: () => void;
 }) => {
+  const openSettings = () => {
+    const container = document.querySelector(
+      '#settingsContainer'
+    ) as HTMLElement;
+    if (container) {
+      container.setAttribute('data-enabled', '');
+      setTimeout(() => {
+        container.style.opacity = '1';
+      }, 10);
+    }
+  };
+
   const controls = useAnimationControls();
 
   const handleClick = () => {
     if (isFetching) return;
-    if (click) click();
+    openSettings();
     isFetching = true;
 
     const easing = cubicBezier(0.25, 1, 0.5, 1);

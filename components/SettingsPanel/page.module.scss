@@ -1,0 +1,90 @@
+.container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 5;
+    opacity: 0;
+
+    transition: all 0.2s ease;
+}
+
+.container[data-enabled] {
+    display: flex;
+    opacity: 0;
+}
+
+
+.card {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    transform-origin: center;
+    width: 30rem;
+    height: 25rem;
+    z-index: 10;
+    background-color: #fff;
+    padding: 1.5rem 2rem;
+    border: 2px solid #ddd;
+    opacity: 1;
+    transition: opacity 0.2s ease;
+    border-radius: 1rem;
+
+    box-shadow: 0 0 5rem rgba(0, 0, 0, 0.1);
+
+    @media screen and (max-width: 768px) {
+        top: 15%;
+        width: 80%;
+    }
+}
+
+.head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.x {
+    $btnSize: 2rem;
+
+    border: unset;
+    width: $btnSize;
+    height: $btnSize;
+    border-radius: .5rem;
+
+    transition-property: scale color;
+
+    transition: 0.1s ease;
+
+    cursor: pointer;
+
+    i {
+        color: #000;
+        font-size: 1.5rem;
+    }
+}
+
+.x:hover {
+    scale: 1.1;
+}
+
+.x:active {
+    scale: .9;
+}
+
+.settings {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: auto;
+}

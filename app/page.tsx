@@ -5,12 +5,14 @@ import Watermark from '@/components/Watermark';
 import TripsContainer from '@/components/TripsContainer';
 import ThemeBtn from '@/components/Buttons/ThemeBtn';
 import HeadBtnContainer from '@/components/HeadBtnContainer';
+import SettingsPanel from '@/components/SettingsPanel';
 
 export default function Home() {
   return (
     <>
       <HeadBtnContainer />
       <main className={styles.main}>
+        <SettingsPanel />
         <div className={styles.header}>
           {/* <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
             {/*Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.}
