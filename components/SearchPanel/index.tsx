@@ -1,6 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.scss';
+import { useRouter } from 'next/router';
 
 interface Station {
   stationName: string;
@@ -192,7 +193,17 @@ const SearchPanel = () => {
     }
     localStorage.setItem('originId', originId);
     localStorage.setItem('destId', destId);
+
     closePanel();
+
+    localStorage.setItem('searched', 'true');
+    const event = new CustomEvent('searchedChange', {
+      detail: {
+        originId,
+        destId,
+      },
+    });
+    window.dispatchEvent(event);
   };
 
   const closePanel = () => {

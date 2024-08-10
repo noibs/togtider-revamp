@@ -38,7 +38,7 @@ const SearchBtn = ({
     <>
       <button
         className={styles}
-        id="secondaryBtn"
+        id="searchBtn"
         onClick={handleClick}
         aria-label="search"
       >

@@ -5,16 +5,19 @@ import styles from './page.module.scss';
 import Loading from '../Loading';
 import SkeletonLoader from '../SkeletonLoader';
 import BtnContainer from '../BtnContainer';
+import SearchBtnObserver from '../SearchBtnObserver';
 
 let loadSkeleton = true;
 let loading = true;
+let originId: string, destId: string;
 
 const roskildeId = '6555';
 const ringstedId = '39761';
-let originId = window.localStorage.getItem('originId') || ringstedId;
-let destId = window.localStorage.getItem('originId') || roskildeId;
 
 export const fetchTrips = async () => {
+  originId = localStorage?.getItem('originId') || ringstedId;
+  destId = localStorage?.getItem('destId') || roskildeId;
+
   loading = true;
   const tripContainer = document.querySelectorAll('#trip');
   tripContainer.forEach((element) => element.classList.add('loading'));
@@ -99,6 +102,23 @@ const TripsContainer = () => {
 
   useEffect(() => {
     updateTrips();
+  }, []);
+
+  useEffect(() => {
+    const handleCustomEvent = () => {
+      if (localStorage.getItem('searched') === 'true') {
+        console.log('Specific boolean is true in local storage !!!!');
+        updateTrips();
+        localStorage.removeItem('searched');
+      }
+    };
+
+    // Add the custom event listener for changes within the same document
+    window.addEventListener('searchedChange', handleCustomEvent);
+
+    return () => {
+      window.removeEventListener('searchedChange', handleCustomEvent);
+    };
   }, []);
 
   return (
