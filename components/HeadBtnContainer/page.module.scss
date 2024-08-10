@@ -14,9 +14,9 @@
 
     width: $btnSize;
     height: $btnSize;
-    border: 3px solid #ddd;
+    border: 3px solid var(--outline);
     border-radius: .75rem;
-    background-color: #fff;
+    background-color: var(--bg-main);
     cursor: pointer;
 
     transition-duration: 0.2s;
@@ -29,7 +29,7 @@
 
         width: $iconSize;
         height: $iconSize;
-        fill: #ddd;
+        fill: var(--outline);
 
         transition: fill 0.2s ease;
     }
@@ -37,7 +37,7 @@
     i {
         transition: color 0.2s ease;
         font-size: 1rem;
-        color: #ddd;
+        color: var(--outline);
     }
 
     // Responsive
@@ -51,13 +51,24 @@
 }
 
 .btn:hover {
-    background-color: #e8e8e8;
+    background-color: var(--btn-color);
     scale: 1.1;
 
     svg,
     i {
         fill: #333;
         color: #333;
+    }
+
+
+}
+
+body[data-theme='dark'] .btn:hover {
+
+    svg,
+    i {
+        fill: #fff;
+        color: #fff;
     }
 }
 

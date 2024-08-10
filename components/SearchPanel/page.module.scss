@@ -26,9 +26,10 @@
     transform-origin: center;
     width: 30rem;
     z-index: 10;
-    background-color: #fff;
+    background-color: var(--bg-main);
+    color: var(--text-main);
     padding: 1.5rem 2rem;
-    border: 2px solid #ddd;
+    border: 2px solid var(--outline);
     opacity: 1;
     transition: transform 1s ease;
     border-radius: 1rem;
@@ -58,13 +59,11 @@
 .description {
     font-size: 1rem;
     margin-bottom: 2rem;
-    color: #6e6e6e;
+    color: var(--text-secondary);
 }
 
 .x {
     all: unset;
-
-
 
     border-radius: .5rem;
 
@@ -90,6 +89,10 @@
     &:active {
         scale: .9;
     }
+}
+
+body[data-theme='dark'] .x i:hover {
+    color: #fff;
 }
 
 .inputContainer {
@@ -129,7 +132,9 @@
         font-size: 1rem;
         width: 70%;
         height: 2.5rem;
-        border: 1px solid #ddd;
+        background-color: var(--bg-main);
+        color: var(--text-secondary);
+        border: 1px solid var(--outline);
         border-radius: .5rem;
         padding: 0 1rem;
         transition: all 0.1s;
@@ -141,7 +146,7 @@
 
         &:focus {
             outline: none;
-            border: 3px solid #ddd;
+            border: 3px solid var(--outline);
             box-shadow: 0 0 2rem rgba(0, 0, 0, 0.1);
 
             @media screen and (max-width: 768px) {
@@ -190,7 +195,7 @@
 
 .searchBtn {
     font-size: 1rem;
-    font-weight: 500;
+    font-weight: 700;
     display: flex;
     gap: .5rem;
     justify-content: center;
@@ -250,8 +255,9 @@
 
 .resultsContainer {
     box-sizing: border-box;
-    background-color: #fff;
-    border: 1px solid #ccc;
+    background-color: var(--bg-main);
+    color: var(--text-main);
+    border: 1px solid var(--outline); // #ccc
     padding: 10px;
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.2);
 
@@ -282,9 +288,9 @@
 .result {
     margin: 0;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--outline);
     cursor: pointer;
-    background-color: #efefef;
+    background-color: var(--bg-secondary); //#efefef
     padding: 5px;
     padding-left: 10px;
     border-radius: 7px;

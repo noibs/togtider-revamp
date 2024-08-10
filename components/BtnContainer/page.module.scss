@@ -16,9 +16,9 @@
 
     height: $btnSize;
     width: $btnSize;
-    border: 3px solid #ddd;
+    border: 3px solid var(--outline);
     border-radius: .75rem;
-    background-color: #fff;
+    background-color: var(--main-color);
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -34,7 +34,8 @@
 
         width: $iconSize;
         height: $iconSize;
-        fill: #181818;
+        fill: #fff;
+        color: #fff;
     }
 
     @media screen and (max-width: 768px) {
@@ -44,6 +45,7 @@
 
     i {
         font-size: 1.3rem;
+        color: var(--text-main);
     }
 }
 
@@ -65,6 +67,10 @@
     background-color: var(--accent-color);
 
     color: #fff;
+
+    i {
+        color: #fff;
+    }
 
     @media screen and (max-width: 768px) {
         width: 7.5rem;
@@ -92,5 +98,5 @@
 }
 
 .secondaryBtn:hover {
-    background-color: #e8e8e8;
+    background-color: var(--btn-hover);
 }

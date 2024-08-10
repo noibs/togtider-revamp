@@ -1,9 +1,10 @@
 .container {
     width: 300px;
-    border: 2px solid #ddd;
+    border: 2px solid var(--outline);
+    color: var(--text-main);
     padding: 25px;
     border-radius: 2vh;
-    background-color: #fff;
+    background-color: var(--bg-main);
     transition-duration: 0.1s;
     transition-timing-function: ease-in-out;
     transition-property: box-shadow scale;
