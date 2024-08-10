@@ -11,8 +11,8 @@ let loading = true;
 
 const roskildeId = '6555';
 const ringstedId = '39761';
-let originId = ringstedId;
-let destId = roskildeId;
+let originId = window.localStorage.getItem('originId') || ringstedId;
+let destId = window.localStorage.getItem('originId') || roskildeId;
 
 export const fetchTrips = async () => {
   loading = true;

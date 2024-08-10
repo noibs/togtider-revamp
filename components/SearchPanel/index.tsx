@@ -14,12 +14,35 @@ interface Station {
 }
 
 const SearchPanel = () => {
+  let originName, oLat, oLon, destName, dLat, dLon;
+  const [originId, setOriginId] = useState<string | null>(null);
+  const [destId, setDestId] = useState<string | null>(null);
+
   const [stations, setStations] = useState<Station[]>([]);
   const [searchResults, setSearchResults] = useState<Station[]>([]);
   const [isResultsVisible, setIsResultsVisible] = useState(false);
   const [activeInput, setActiveInput] = useState<
     'origin' | 'destination' | null
   >(null);
+
+  const showErrorMessage = (msg: string) => {
+    const errorContainer = document.getElementById('error') as HTMLElement;
+    const errorEl = document.getElementById('error-msg') as HTMLElement;
+    errorEl.textContent = msg;
+    errorContainer.setAttribute('data-enabled', 'true');
+    setTimeout(() => {
+      errorContainer.style.opacity = '1';
+
+      setTimeout(() => {
+        errorContainer.removeAttribute('style');
+
+        setTimeout(() => {
+          errorContainer.removeAttribute('data-enabled');
+          errorContainer.removeAttribute('style');
+        }, 200);
+      }, 10000);
+    }, 10);
+  };
 
   useEffect(() => {
     fetch('./data/stations.json')
@@ -47,7 +70,7 @@ const SearchPanel = () => {
         if (resultsContainer) {
           resultsContainer.classList.add(styles.visible);
         }
-      }, 100);
+      }, 10);
       return () => clearTimeout(timer);
     } else {
       const resultsContainer = document.getElementById('resultsContainer');
@@ -55,6 +78,35 @@ const SearchPanel = () => {
         resultsContainer.classList.remove(styles.visible);
       }
     }
+  }, [isResultsVisible]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const resultsContainer = document.getElementById('resultsContainer');
+      const originInput = document.getElementById('origin-input');
+      const destinationInput = document.getElementById('destination-input');
+      if (
+        resultsContainer &&
+        !resultsContainer.contains(event.target as Node) &&
+        originInput &&
+        !originInput.contains(event.target as Node) &&
+        destinationInput &&
+        !destinationInput.contains(event.target as Node)
+      ) {
+        setIsResultsVisible(false);
+        setActiveInput(null);
+      }
+    };
+
+    if (isResultsVisible) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
   }, [isResultsVisible]);
 
   const searchStation = (query: string) => {
@@ -90,31 +142,57 @@ const SearchPanel = () => {
         localStorage.getItem('destId') === station.data.stationId.toString()
       ) {
         console.error('Origin and destination stations cannot be the same');
+        showErrorMessage('Start- og endestation kan ikke være det samme.');
         setIsResultsVisible(false);
         return;
       }
 
-      localStorage.setItem('originId', station.data.stationId.toString());
-      localStorage.setItem('originName', station.stationName);
-      localStorage.setItem('oLat', station.data.coords.lat.toString());
-      localStorage.setItem('oLon', station.data.coords.lon.toString());
+      originName = station.stationName;
+      oLat = station.data.coords.lat.toString();
+      oLon = station.data.coords.lon.toString();
+      setOriginId(station.data.stationId.toString());
     } else if (inputType === 'destination') {
       if (
         localStorage.getItem('originId') === station.data.stationId.toString()
       ) {
         console.error('Origin and destination stations cannot be the same');
+        showErrorMessage('Start- og endestation kan ikke være det samme.');
         setIsResultsVisible(false);
         return;
       }
 
-      localStorage.setItem('destId', station.data.stationId.toString());
-      localStorage.setItem('destName', station.stationName);
-      localStorage.setItem('dLat', station.data.coords.lat.toString());
-      localStorage.setItem('dLon', station.data.coords.lon.toString());
+      destName = station.stationName;
+      dLat = station.data.coords.lat.toString();
+      dLon = station.data.coords.lon.toString();
+      setDestId(station.data.stationId.toString());
+      console.log('originId', originId);
     }
 
     setIsResultsVisible(false);
     setActiveInput(null);
+  };
+
+  const handleKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    inputType: 'origin' | 'destination'
+  ) => {
+    if (event.key === 'Escape') {
+      setIsResultsVisible(false);
+      setActiveInput(null);
+      (event.target as HTMLInputElement).blur();
+    } else if (event.key === 'Enter' && searchResults.length > 0) {
+      handleResultClick(searchResults[0], inputType);
+      (event.target as HTMLInputElement).blur();
+    }
+  };
+
+  const handleSearchClick = () => {
+    if (!originId || !destId) {
+      return showErrorMessage('Vælg start- og endestation.');
+    }
+    localStorage.setItem('originId', originId);
+    localStorage.setItem('destId', destId);
+    closePanel();
   };
 
   const closePanel = () => {
@@ -148,6 +226,7 @@ const SearchPanel = () => {
               type="text"
               placeholder="Søg efter en station..."
               onChange={(e) => handleInputChange(e, 'origin')}
+              onKeyDown={(e) => handleKeyDown(e, 'origin')}
             />
           </span>
           {isResultsVisible && activeInput === 'origin' && (
@@ -183,6 +262,7 @@ const SearchPanel = () => {
               type="text"
               placeholder="Søg efter en station..."
               onChange={(e) => handleInputChange(e, 'destination')}
+              onKeyDown={(e) => handleKeyDown(e, 'destination')}
             />
           </span>
           {isResultsVisible && activeInput === 'destination' && (
@@ -214,7 +294,13 @@ const SearchPanel = () => {
         </div>
 
         <div className={styles.btnContainer}>
-          <button className={styles.searchBtn}>Søg</button>
+          <div data-enabled id="error" className={styles.error}>
+            <i className="fa-regular fa-circle-info"></i>
+            <p id="error-msg">Start- og endestation kan ikke være det samme.</p>
+          </div>
+          <button className={styles.searchBtn} onClick={handleSearchClick}>
+            Søg
+          </button>
         </div>
       </div>
     </div>

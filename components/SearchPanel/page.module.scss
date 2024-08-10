@@ -145,6 +145,36 @@
 .btnContainer {
     display: flex;
     justify-content: right;
+    align-items: center;
+    gap: 1rem;
+}
+
+.error {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border-radius: .5rem;
+    opacity: 0;
+    width: auto;
+    word-wrap: break-word; // Ensure long words break and wrap
+    white-space: normal; // Ensure text wraps normally
+    gap: 0.5rem;
+    background-color: rgb(255, 116, 116);
+    color: white;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    transition: all 0.1s;
+
+
+    @media screen and (max-width: 768px) {
+        font-size: 0.7rem;
+        text-wrap: wrap;
+
+    }
+}
+
+.error[data-enabled] {
+    display: flex;
 }
 
 .searchBtn {
@@ -216,14 +246,19 @@
     position: absolute;
     right: 0;
 
-    width: 80%;
+    width: 60%;
     display: block;
     border-radius: 10px;
     padding-bottom: 0;
-    opacity: 1;
-    transform: translateY(-50px);
-    transition: opacity 0.15s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
     z-index: 100;
+
+    @media screen and (max-width: 768px) {
+        width: 80%;
+
+    }
 
 }
 
