@@ -1,9 +1,8 @@
 import React from 'react';
-import styles from './page.module.scss';
 
-const Loading = () => {
+const Loading = (styles: { styles: string }) => {
   return (
-    <div className={styles.loadContainer}>
+    <div className={styles.styles}>
       <svg
         width="100%"
         height="100%"

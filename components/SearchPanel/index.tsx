@@ -139,34 +139,15 @@ const SearchPanel = () => {
     inputElement.value = station.stationName;
 
     if (inputType === 'origin') {
-      if (
-        localStorage.getItem('destId') === station.data.stationId.toString()
-      ) {
-        console.error('Origin and destination stations cannot be the same');
-        showErrorMessage('Start- og endestation kan ikke være det samme.');
-        setIsResultsVisible(false);
-        return;
-      }
-
       originName = station.stationName;
       oLat = station.data.coords.lat.toString();
       oLon = station.data.coords.lon.toString();
       setOriginId(station.data.stationId.toString());
     } else if (inputType === 'destination') {
-      if (
-        localStorage.getItem('originId') === station.data.stationId.toString()
-      ) {
-        console.error('Origin and destination stations cannot be the same');
-        showErrorMessage('Start- og endestation kan ikke være det samme.');
-        setIsResultsVisible(false);
-        return;
-      }
-
       destName = station.stationName;
       dLat = station.data.coords.lat.toString();
       dLon = station.data.coords.lon.toString();
       setDestId(station.data.stationId.toString());
-      console.log('originId', originId);
     }
 
     setIsResultsVisible(false);
@@ -184,12 +165,49 @@ const SearchPanel = () => {
     } else if (event.key === 'Enter' && searchResults.length > 0) {
       handleResultClick(searchResults[0], inputType);
       (event.target as HTMLInputElement).blur();
+
+      if (inputType === 'origin') {
+        const destinationInput = document.querySelector(
+          '#destination-input'
+        ) as HTMLInputElement;
+        if (destinationInput) {
+          destinationInput.focus();
+        }
+      }
+
+      if (inputType === 'destination') {
+        const submitBtn = document.querySelector(
+          '#submitBtn'
+        ) as HTMLButtonElement;
+        if (submitBtn) {
+          submitBtn.focus();
+        }
+      }
     }
   };
 
   const handleSearchClick = () => {
+    const originInput = document.getElementById(
+      'origin-input'
+    ) as HTMLInputElement;
+    const destinationInput = document.getElementById(
+      'destination-input'
+    ) as HTMLInputElement;
+
     if (!originId || !destId) {
-      return showErrorMessage('Vælg start- og endestation.');
+      showErrorMessage('Vælg start- og endestation.');
+
+      originInput.value = '';
+      destinationInput.value = '';
+      return;
+    }
+
+    if (originId === destId) {
+      showErrorMessage('Start- og endestation kan ikke være det samme.');
+
+      originInput.value = '';
+      destinationInput.value = '';
+      return;
     }
     localStorage.setItem('originId', originId);
     localStorage.setItem('destId', destId);
@@ -204,6 +222,11 @@ const SearchPanel = () => {
       },
     });
     window.dispatchEvent(event);
+
+    setTimeout(() => {
+      originInput.value = '';
+      destinationInput.value = '';
+    }, 50);
   };
 
   const closePanel = () => {
@@ -305,11 +328,15 @@ const SearchPanel = () => {
         </div>
 
         <div className={styles.btnContainer}>
-          <div data-enabled id="error" className={styles.error}>
+          <div id="error" className={styles.error}>
             <i className="fa-regular fa-circle-info"></i>
             <p id="error-msg">Start- og endestation kan ikke være det samme.</p>
           </div>
-          <button className={styles.searchBtn} onClick={handleSearchClick}>
+          <button
+            id="submitBtn"
+            className={styles.searchBtn}
+            onClick={handleSearchClick}
+          >
             Søg
           </button>
         </div>
