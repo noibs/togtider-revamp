@@ -1,6 +1,8 @@
+// This component contains the train cards that display information about upcoming trips.
 import React from 'react';
 import styles from './page.module.scss';
 
+// The custom interface for the trip object
 interface Trip {
   Origin: {
     name: string;
@@ -19,6 +21,7 @@ interface Trip {
 }
 
 const TrainCard = ({ trip }: { trip: Trip }) => {
+  // Destructuring the trip object
   let startLoc = trip.Origin.name;
   let startTime = trip.Origin.time;
   let delayedStart = trip.Origin.rtTime;

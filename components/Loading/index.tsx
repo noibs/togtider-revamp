@@ -1,3 +1,4 @@
+// This component contains the loading spinner, which is displayed when the page and data is loading.
 import React from 'react';
 
 const Loading = (styles: { styles: string }) => {

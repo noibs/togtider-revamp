@@ -1,8 +1,9 @@
+// This component contains the search panel and all it's function. It's used to search for routes between two stations.
 'use client';
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.scss';
-import { useRouter } from 'next/router';
 
+// This interface is used to define the structure of the station object
 interface Station {
   stationName: string;
   data: {
@@ -15,17 +16,25 @@ interface Station {
 }
 
 const SearchPanel = () => {
-  let originName, oLat, oLon, destName, dLat, dLon;
+  // These two states are used to store the id of the origin and destination station
   const [originId, setOriginId] = useState<string | null>(null);
   const [destId, setDestId] = useState<string | null>(null);
 
+  // This state is used to store all available the stations
   const [stations, setStations] = useState<Station[]>([]);
+
+  // This state is used to store the search results
   const [searchResults, setSearchResults] = useState<Station[]>([]);
+
+  // This state is used to determine if the search results are visible or not
   const [isResultsVisible, setIsResultsVisible] = useState(false);
+
+  // This state is used to determine which input is active
   const [activeInput, setActiveInput] = useState<
     'origin' | 'destination' | null
   >(null);
 
+  // This function is used to display an error message to the left of the search button
   const showErrorMessage = (msg: string) => {
     const errorContainer = document.getElementById('error') as HTMLElement;
     const errorEl = document.getElementById('error-msg') as HTMLElement;
@@ -45,6 +54,7 @@ const SearchPanel = () => {
     }, 10);
   };
 
+  // This useEffect hook is used to fetch the stations from the server on component mount
   useEffect(() => {
     fetch('./data/stations.json')
       .then((res) => {
@@ -54,9 +64,11 @@ const SearchPanel = () => {
         return res.json();
       })
       .then((data: Station[]) => {
+        // Sort the stations alphabetically
         const sortedStations = data.sort((a, b) =>
           a.stationName.localeCompare(b.stationName)
         );
+        // Save the sorted stations to the state
         setStations(sortedStations);
       })
       .catch((err) => {
@@ -64,8 +76,10 @@ const SearchPanel = () => {
       });
   }, []);
 
+  // This useEffect hook is used to show the search results when the state changes
   useEffect(() => {
     if (isResultsVisible) {
+      // This timer is used to prevent the results from being displayed before the component is rendered
       const timer = setTimeout(() => {
         const resultsContainer = document.getElementById('resultsContainer');
         if (resultsContainer) {
@@ -81,11 +95,15 @@ const SearchPanel = () => {
     }
   }, [isResultsVisible]);
 
+  // This useEffect hook is used to close the search results when the user clicks outside of the search panel
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      // Gets all elements that are allowed to be clicked
       const resultsContainer = document.getElementById('resultsContainer');
       const originInput = document.getElementById('origin-input');
       const destinationInput = document.getElementById('destination-input');
+
+      // Closes the search results if the user clicks outside of the search panel
       if (
         resultsContainer &&
         !resultsContainer.contains(event.target as Node) &&
@@ -99,6 +117,7 @@ const SearchPanel = () => {
       }
     };
 
+    // Event listeners:
     if (isResultsVisible) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
@@ -110,16 +129,23 @@ const SearchPanel = () => {
     };
   }, [isResultsVisible]);
 
+  // This function is used to search for stations based on the query
   const searchStation = (query: string) => {
-    return stations
-      .filter((station) =>
-        station.stationName.toLowerCase().includes(query.toLowerCase())
-      )
-      .slice(0, 5);
+    return (
+      stations
+        .filter((station) =>
+          // Makes the search case insensitive for better matching
+          station.stationName.toLowerCase().includes(query.toLowerCase())
+        )
+        // Limits the search results to 5
+        .slice(0, 5)
+    );
   };
 
+  // This function is used to handle the input change event
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>,
+    // This parameter is used to determine which input is active
     inputType: 'origin' | 'destination'
   ) => {
     const query = event.target.value;
@@ -129,8 +155,10 @@ const SearchPanel = () => {
     setActiveInput(inputType);
   };
 
+  // This function is used to handle the selection of a search result
   const handleResultClick = (
     station: Station,
+    // This parameter is used to determine which input is active
     inputType: 'origin' | 'destination'
   ) => {
     const inputElement = document.getElementById(
@@ -138,15 +166,10 @@ const SearchPanel = () => {
     ) as HTMLInputElement;
     inputElement.value = station.stationName;
 
+    // Sets the originId or destId based on the inputType
     if (inputType === 'origin') {
-      originName = station.stationName;
-      oLat = station.data.coords.lat.toString();
-      oLon = station.data.coords.lon.toString();
       setOriginId(station.data.stationId.toString());
     } else if (inputType === 'destination') {
-      destName = station.stationName;
-      dLat = station.data.coords.lat.toString();
-      dLon = station.data.coords.lon.toString();
       setDestId(station.data.stationId.toString());
     }
 
@@ -154,18 +177,24 @@ const SearchPanel = () => {
     setActiveInput(null);
   };
 
+  // This function is used to handle key events such as escape and enter.
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>,
     inputType: 'origin' | 'destination'
   ) => {
+    // Closes the search results if the user presses the escape key
     if (event.key === 'Escape') {
       setIsResultsVisible(false);
       setActiveInput(null);
+      // Unfocuses the input field
       (event.target as HTMLInputElement).blur();
+
+      // If enter is pressed and there are search results, the first result is selected
     } else if (event.key === 'Enter' && searchResults.length > 0) {
       handleResultClick(searchResults[0], inputType);
       (event.target as HTMLInputElement).blur();
 
+      // If the user presses escape while in the top input, the bottom input is focused
       if (inputType === 'origin') {
         const destinationInput = document.querySelector(
           '#destination-input'
@@ -175,6 +204,7 @@ const SearchPanel = () => {
         }
       }
 
+      // If the user presses enter while in the bottom input, the search button is activated
       if (inputType === 'destination') {
         const submitBtn = document.querySelector(
           '#submitBtn'
@@ -186,7 +216,9 @@ const SearchPanel = () => {
     }
   };
 
+  // This function is used to handle the search button click
   const handleSearchClick = () => {
+    // Gets the input fields
     const originInput = document.getElementById(
       'origin-input'
     ) as HTMLInputElement;
@@ -194,26 +226,35 @@ const SearchPanel = () => {
       'destination-input'
     ) as HTMLInputElement;
 
+    // Checks if the originId and dest are set, if not, an error message is displayed
     if (!originId || !destId) {
       showErrorMessage('Vælg start- og endestation.');
 
+      // Resets the input fields
       originInput.value = '';
       destinationInput.value = '';
       return;
     }
 
+    // Checks if the originId and destId are the same, if so, an error message is displayed
     if (originId === destId) {
       showErrorMessage('Start- og endestation kan ikke være det samme.');
 
+      // Resets the input fields
       originInput.value = '';
       destinationInput.value = '';
       return;
     }
+
+    // If no errors are presesnt, the originId and destId are saved to the local storage
     localStorage.setItem('originId', originId);
     localStorage.setItem('destId', destId);
 
+    // Closes the panel
     closePanel();
 
+    /* Dispatches a custom event to notify the app that a search has been made, 
+    when received by the TripsContainer, a refresh will take place. */
     localStorage.setItem('searched', 'true');
     const event = new CustomEvent('searchedChange', {
       detail: {
@@ -224,13 +265,17 @@ const SearchPanel = () => {
     window.dispatchEvent(event);
 
     setTimeout(() => {
+      // Resets the input fields
       originInput.value = '';
       destinationInput.value = '';
     }, 50);
   };
 
+  // This function is used to close the search panel
   const closePanel = () => {
     const container = document.querySelector('#searchContainer') as HTMLElement;
+
+    // Fades out the search panel
     if (container) {
       container.style.opacity = '0';
       setTimeout(() => {

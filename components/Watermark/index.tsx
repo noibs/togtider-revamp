@@ -1,5 +1,6 @@
-import React from "react";
-import styles from "./page.module.scss";
+// This component contains my logo, which links to my personal website.
+import React from 'react';
+import styles from './page.module.scss';
 
 const Watermark = () => {
   return (

@@ -1,7 +1,9 @@
+// This component contains the search button, which when pressed diplsays the search panel (@/components/SearchPanel/index.tsx).
 'use client';
 import React from 'react';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
+// This varaible is used to prevent the user from clicking the button multiple times
 let isFetching = false;
 
 const SearchBtn = ({
@@ -13,11 +15,27 @@ const SearchBtn = ({
 }) => {
   const controls = useAnimationControls();
 
+  const openSearchPanel = () => {
+    const searchContainer = document.querySelector(
+      '#searchContainer'
+    ) as HTMLElement;
+    if (searchContainer) {
+      // Adds the data-enabled attribute to the container to display the search panel
+      searchContainer.setAttribute('data-enabled', '');
+      // Sets a small timeout to animate the search panel
+      setTimeout(() => {
+        searchContainer.style.opacity = '1';
+      }, 10);
+    }
+  };
+
+  // This function is called when the user clicks the button, which calls the openSearchPanel function
   const handleClick = () => {
     if (isFetching) return;
-    if (click) click();
+    openSearchPanel();
     isFetching = true;
 
+    // Wiggle animation
     const easing = cubicBezier(0.22, 1, 0.36, 1);
 
     controls.start({
