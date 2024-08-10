@@ -10,7 +10,6 @@ const HeadBtnContainer = () => {
         <ThemeBtn styles={styles.btn} />
         <SettingsBtn styles={styles.btn} />
       </div>
-      <dialog className={styles.dialog}>super cool modal</dialog>
     </>
   );
 };
