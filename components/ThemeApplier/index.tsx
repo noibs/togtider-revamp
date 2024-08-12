@@ -19,7 +19,7 @@ export default function ThemeApplier() {
           localStorage?.setItem('theme', 'light');
         }
       }
-      setTheme(storedTheme);
+      //setTheme(storedTheme);
 
       const updateTheme = (event: CustomEvent) => {
         const newTheme = event.detail;

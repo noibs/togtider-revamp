@@ -1,0 +1,50 @@
+.tripContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    background: var(--bg-main);
+    border: 2px solid var(--outline);
+    font-size: 1.1rem;
+}
+
+.elementContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50vw;
+    padding: 0.6rem 0.75rem;
+    border-radius: 0.5rem;
+    background: var(--bg-third);
+    font-size: 1.1rem;
+
+
+    .time {
+        font-weight: 600;
+    }
+
+    .mid {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 1200px;
+        padding: 0 20px;
+        gap: 1rem;
+
+        .trainName {
+            background-color: #50ae30;
+            color: white;
+            font-weight: 600;
+            padding: 0.2rem 0.3rem;
+            border-radius: 5px;
+        }
+
+        .track {
+            margin-left: auto;
+        }
+    }
+}

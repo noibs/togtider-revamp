@@ -4,6 +4,8 @@ import './globals.scss';
 import Script from 'next/script';
 import { ThemeProvider } from 'next-themes';
 import ThemeApplier from '@/components/ThemeApplier';
+import HeadBtnContainer from '@/components/HeadBtnContainer';
+import Watermark from '@/components/Watermark';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -32,7 +34,11 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <ThemeApplier />
-        <ThemeProvider attribute="data-theme">{children}</ThemeProvider>
+        <ThemeProvider attribute="data-theme">
+          {children}
+          <HeadBtnContainer />
+          <Watermark />
+        </ThemeProvider>
       </body>
     </html>
   );

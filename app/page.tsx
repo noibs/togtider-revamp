@@ -21,8 +21,6 @@ export default function Home() {
         </div>
         <TripsContainer />
       </main>
-      <HeadBtnContainer />
-      <Watermark />
     </>
   );
 }
