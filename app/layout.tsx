@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.scss';
 import Script from 'next/script';
 import { ThemeProvider } from 'next-themes';
+import ThemeApplier from '@/components/ThemeApplier';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: '#000000',
+  themeColor: '#fff',
 };
 
 export default function RootLayout({
@@ -30,6 +31,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <ThemeApplier />
         <ThemeProvider attribute="data-theme">{children}</ThemeProvider>
       </body>
     </html>

@@ -100,3 +100,15 @@
 .secondaryBtn:hover {
     background-color: var(--btn-hover);
 }
+
+html[data-apple-web-app="true"] {
+
+    .btnContainer {
+        gap: 1.5rem;
+        margin: 2rem;
+    }
+
+    .btn {
+        scale: 1.2;
+    }
+}

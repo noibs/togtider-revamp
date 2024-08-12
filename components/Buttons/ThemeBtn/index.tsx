@@ -21,8 +21,12 @@ const ThemeBtn = ({ styles }: { styles: string }) => {
   const changeTheme = () => {
     if (theme === 'light') {
       setTheme('dark');
+      const event = new CustomEvent('themeChanged', { detail: 'dark' });
+      window.dispatchEvent(event);
     } else {
       setTheme('light');
+      const event = new CustomEvent('themeChanged', { detail: 'light' });
+      window.dispatchEvent(event);
     }
   };
 

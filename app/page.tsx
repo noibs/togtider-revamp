@@ -8,7 +8,6 @@ import SearchPanel from '@/components/SearchPanel';
 export default function Home() {
   return (
     <>
-      <HeadBtnContainer />
       <main className={styles.main}>
         <SettingsPanel />
         <SearchPanel />
@@ -22,6 +21,7 @@ export default function Home() {
         </div>
         <TripsContainer />
       </main>
+      <HeadBtnContainer />
       <Watermark />
     </>
   );

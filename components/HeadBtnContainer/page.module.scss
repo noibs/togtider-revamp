@@ -3,9 +3,11 @@
     display: flex;
     position: absolute;
     right: 0;
+    top: 0;
     gap: 0.5rem;
     align-items: center;
     margin: 0.75rem;
+
 }
 
 // Button styles
@@ -74,4 +76,13 @@ html[data-theme='dark'] .btn:hover {
 
 .btn:active {
     scale: .9;
+}
+
+html[data-apple-web-app="true"] {
+    .btnContainer {
+        justify-content: space-between;
+        width: 100%;
+        padding-left: 1.5rem;
+        z-index: unset;
+    }
 }
