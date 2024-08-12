@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.scss';
 import Script from 'next/script';
+import { ThemeProvider } from 'next-themes';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,14 +17,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="da">
+    <html lang="da" suppressHydrationWarning>
       <head>
         <Script
           src="https://kit.fontawesome.com/e4cef1fffb.js"
           crossOrigin="anonymous"
         />
       </head>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <ThemeProvider attribute="data-theme">{children}</ThemeProvider>
+      </body>
     </html>
   );
 }

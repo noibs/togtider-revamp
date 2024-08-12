@@ -1,27 +1,32 @@
-// This component contains the theme button, which when pressed changes between light and dark mode. (Not yet implemented)
 'use client';
 import React, { useState, useEffect } from 'react';
+import { useTheme } from 'next-themes';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 
-// This varaible is used to prevent the user from clicking the button multiple times
+// This variable is used to prevent the user from clicking the button multiple times
 let isFetching = false;
 
 const ThemeBtn = ({ styles }: { styles: string }) => {
-  const [isLightTheme, setIsLightTheme] = useState(true);
+  const { theme, setTheme } = useTheme();
   const controls = useAnimationControls();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   // This function changes the theme of the page
   const changeTheme = () => {
-    if (isLightTheme) {
-      document.body.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+    if (theme === 'light') {
+      setTheme('dark');
     } else {
-      document.body.setAttribute('data-theme', 'light');
-      localStorage.setItem('theme', 'light');
+      setTheme('light');
     }
   };
 
-  // This function is called when the user clicks the button, the click function is provided by the parent component
+  // This function is called when the user clicks the button
   const handleClick = () => {
     if (isFetching) return;
     changeTheme();
@@ -34,34 +39,16 @@ const ThemeBtn = ({ styles }: { styles: string }) => {
       transition: { duration: 1, ease: easing },
     });
 
-    setTimeout(
-      () => {
-        setIsLightTheme(!isLightTheme);
-      },
-      isLightTheme ? 100 : 200
-    );
-
     setTimeout(() => {
       isFetching = false;
       controls.set({ rotate: 0 });
     }, 2000);
   };
 
-  useEffect(() => {
-    const theme = localStorage.getItem('theme');
-    if (theme) {
-      setIsLightTheme(theme === 'light');
-      document.body.setAttribute('data-theme', theme);
-    } else {
-      localStorage.setItem('theme', 'light');
-      document.body.setAttribute('data-theme', 'light');
-    }
-  }, []);
-
   return (
     <button className={styles} onClick={handleClick} aria-label="Change Theme">
       <motion.i
-        className={`fa-solid ${isLightTheme ? 'fa-moon' : 'fa-sun'}`}
+        className={`fa-solid ${theme === 'light' ? 'fa-moon' : 'fa-sun'}`}
         animate={controls}
       ></motion.i>
     </button>

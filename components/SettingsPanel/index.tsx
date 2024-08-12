@@ -1,10 +1,11 @@
 /* This component contains the settings panel that is displayed 
 when the settings button is clicked. It contains two settings that the user can change. */
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './page.module.scss';
 
 const SettingsPanel = () => {
+  const [useLocation, setUseLocation] = useState(false);
   let container: HTMLElement | null;
 
   // The function that closes the settings panel
@@ -20,12 +21,47 @@ const SettingsPanel = () => {
     }
   };
 
+  const enableLocation = () => {
+    const useLocation = localStorage.getItem('useLocation');
+
+    if (useLocation === 'true') {
+      // If the user has already enabled location services, we disable it
+      localStorage.setItem('useLocation', 'false');
+      setUseLocation(false);
+    } else {
+      // If the user has not enabled location services, we enable it
+      localStorage.setItem('useLocation', 'true');
+      setUseLocation(true);
+      // Prompt the user for location access
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          window.location.reload();
+        },
+        () => {
+          // If the user denies location access, we disable location services
+          localStorage.setItem('useLocation', 'false');
+          setUseLocation(false);
+          alert(
+            'Du har afvist adgang til din lokation. Du kan slå lokalitetstjenester til igen i indstillinger.'
+          );
+        }
+      );
+    }
+  };
+
   const resetCache = () => {
     // We clear the cache by setting the localStorage to an empty object
     localStorage.clear();
     // We reload the page to fetch the data again
     window.location.reload();
   };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const locStatus = localStorage.getItem('useLocation') === 'true';
+      setUseLocation(locStatus);
+    }
+  }, []);
 
   return (
     <div className={styles.container} id="settingsContainer">
@@ -44,7 +80,12 @@ const SettingsPanel = () => {
               Togtider kan bruge lokalitetstjenester til automatisk at finde ud
               af hvilken station du er tættest på.
             </p>
-            <button aria-label="Turn localization on">Slå til</button>
+            <button
+              onClick={enableLocation}
+              aria-label="Turn localization on/off"
+            >
+              {useLocation ? 'Slå fra' : 'Slå til'}
+            </button>
           </div>
 
           <div className={styles.setting}>

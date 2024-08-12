@@ -10,6 +10,19 @@
   --text-secondary: #6e6e6e;
 }
 
+html[data-theme='dark'] {
+  --bg-main: #1e1e1e;
+  --bg-secondary: #333;
+  --btn-hover: #272727;
+  --outline: #333;
+  --text-main: #fff;
+  --text-secondary: #a1a1a1;
+
+  #logo {
+    filter: invert(80%) hue-rotate(180deg);
+  }
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -23,19 +36,6 @@ body {
   overflow-x: hidden;
   background-color: var(--bg-main);
   transition: color 0.5s ease, background-color 0.5s ease;
-}
-
-body[data-theme='dark'] {
-  --bg-main: #1e1e1e;
-  --bg-secondary: #333;
-  --btn-hover: #272727;
-  --outline: #333;
-  --text-main: #fff;
-  --text-secondary: #a1a1a1;
-
-  #logo {
-    filter: invert(80%) hue-rotate(180deg);
-  }
 }
 
 button,
