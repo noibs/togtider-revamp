@@ -55,7 +55,7 @@ const TripsContainer = () => {
 
     const useLocation = localStorage.getItem('useLocation');
 
-    if (useLocation === 'true') {
+    if (useLocation === 'true' && !locationHasRun) {
       interface stationData {
         stationName: string;
         data: {

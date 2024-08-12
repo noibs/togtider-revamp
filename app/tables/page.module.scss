@@ -1,0 +1,29 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 6rem;
+    min-height: 100dvh;
+
+
+}
+
+@media screen and (max-width: 768px) {
+    .main {
+        padding: 0rem;
+        justify-content: flex-start;
+        font-size: 80%;
+        height: 80vh;
+        overflow: hidden;
+
+        p {
+            font-size: 0.9rem;
+        }
+
+        svg {
+            width: .8rem;
+        }
+
+    }
+}

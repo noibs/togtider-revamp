@@ -1,0 +1,27 @@
+{
+    "id": "1",
+    "name": "Togtider",
+    "short_name": "Togtider",
+    "description": "PWA version af Togtider ",
+    "icons": [
+      {
+        "src": "icons/img-192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "any maskable"
+      },
+      {
+        "src": "/icons/img-384.png",
+        "sizes": "384x384",
+        "type": "image/png"
+      },
+      {
+        "src": "/icons/img-512.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+  }
