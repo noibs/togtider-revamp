@@ -1,9 +1,10 @@
 // This component contains the loading spinner, which is displayed when the page and data is loading.
 import React from 'react';
+import styles from './page.module.scss';
 
-const Loading = (styles: { styles: string }) => {
+const Loading = () => {
   return (
-    <div className={styles.styles}>
+    <div className={styles.loadContainer}>
       <svg
         width="100%"
         height="100%"

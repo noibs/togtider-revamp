@@ -15,27 +15,26 @@ interface DataProps {
 }
 
 const Afgangselement = ({ data }: { data?: DataProps }) => {
-  /*const {
-    name,
-    type,
-    stop,
-    time,
-    id,
-    line,
-    messages,
-    track,
-    rtTrack,
-    finalStop,
-  } = data;*/
+  if (!data) return null;
+
+  let color = '#50ae30';
+
+  if (data?.type === 'TOG') {
+    color = '#0065aa';
+  }
 
   return (
     <div className={styles.elementContainer}>
-      <p className={styles.time}>20:09</p>
+      <p className={styles.time}>{data?.time}</p>
       <div className={styles.mid}>
-        <p className={styles.trainName}>Re 1575</p>
+        <p className={styles.trainName} style={{ backgroundColor: color }}>
+          {data?.name}
+        </p>
         <i className="fa-solid fa-arrow-right"></i>
-        <p className={styles.destination}>Hillerød</p>
-        <p className={styles.track}>Spor 2</p>
+        <p className={styles.destination}>{data?.finalStop}</p>
+        <p className={styles.track}>
+          {`Spor: ${data?.rtTrack || data?.track}`}
+        </p>
       </div>
     </div>
   );

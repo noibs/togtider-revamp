@@ -270,7 +270,7 @@ const TripsContainer = () => {
       {!loadSkeleton && (
         <BtnContainer refreshBtn={updateTrips} swapBtn={swapTrips} />
       )}
-      {loading && <Loading styles={styles.loadContainer} />}
+      {loading && <Loading />}
     </>
   );
 };

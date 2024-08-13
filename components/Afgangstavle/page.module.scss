@@ -8,17 +8,20 @@
     background: var(--bg-main);
     border: 2px solid var(--outline);
     font-size: 1.1rem;
+    transition: all 0.3s ease;
 }
 
 .elementContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 50vw;
     padding: 0.6rem 0.75rem;
     border-radius: 0.5rem;
     background: var(--bg-third);
-    font-size: 1.1rem;
+
+    i {
+        font-size: 1.5rem
+    }
 
 
     .time {
@@ -36,7 +39,6 @@
         gap: 1rem;
 
         .trainName {
-            background-color: #50ae30;
             color: white;
             font-weight: 600;
             padding: 0.2rem 0.3rem;
@@ -47,4 +49,40 @@
             margin-left: auto;
         }
     }
+}
+
+@media screen and (max-width: 768px) {
+    .tripContainer {
+        padding: 0.5rem;
+        border: none;
+        align-items: flex-start;
+    }
+
+    .elementContainer {
+        font-size: 1rem;
+        padding: 0.5rem;
+        width: 100%;
+        display: block;
+        position: relative;
+
+        .mid {
+
+            margin-top: 0.2rem;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .track {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.5rem;
+        }
+
+        i {
+            font-size: 1rem
+        }
+    }
+
+
 }
