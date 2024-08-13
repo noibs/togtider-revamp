@@ -1,3 +1,24 @@
+.title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    button {
+        all: unset;
+        cursor: pointer;
+
+    }
+
+    i {
+        font-size: 2rem;
+        color: var(--accent-color)
+    }
+
+
+}
+
+
+
 .tripContainer {
     display: flex;
     flex-direction: column;
@@ -20,7 +41,7 @@
     background: var(--bg-third);
 
     i {
-        font-size: 1.5rem
+        font-size: 1rem
     }
 
 
@@ -51,10 +72,64 @@
     }
 }
 
+.btn {
+    $btnSize: 3rem;
+
+    height: $btnSize;
+    width: $btnSize;
+    border: 3px solid var(--outline);
+    border-radius: .75rem;
+    background-color: var(--main-color);
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-property: background-color scale;
+
+
+    svg {
+        $iconSize: 50%;
+
+        width: $iconSize;
+        height: $iconSize;
+        fill: #fff;
+        color: #fff;
+    }
+
+    @media screen and (max-width: 768px) {
+        border-radius: 2rem;
+
+    }
+
+    i {
+        font-size: 1.3rem;
+        color: var(--text-main);
+    }
+}
+
+.btn:hover {
+    scale: 1.1;
+}
+
+.btn:active {
+    scale: .9;
+}
+
+.secondaryBtn {
+    color: #181818;
+}
+
+.secondaryBtn:hover {
+    background-color: var(--btn-hover);
+}
+
 @media screen and (max-width: 768px) {
     .tripContainer {
         padding: 0.5rem;
-        border: none;
+        width: 80%;
         align-items: flex-start;
     }
 

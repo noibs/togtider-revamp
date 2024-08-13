@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.scss';
 import Loading from '../Loading';
+import Link from 'next/link';
+import SearchBtn from '../Buttons/SearchBtn';
 
 interface Departure {
   name: string;
@@ -24,13 +26,28 @@ interface DataProps {
 const Afgangselement = ({ data }: { data?: Departure }) => {
   if (!data) return null;
 
+  let title = data.stop;
+
   let color = '#50ae30';
 
   if (data?.type === 'TOG') {
     color = '#0065aa';
   }
 
+  if (data?.type === 'M') {
+    color = '#009ac0';
+  }
+
+  if (data?.type === 'S') {
+    color = '#b8211c';
+  }
+
   if (data?.name.includes('Lokalbane')) {
+    data.name = data.name.replace('Lokalbane', 'LB');
+  }
+
+  if (data?.stop.includes('(')) {
+    title = data.stop.split('(')[0];
   }
 
   return (
@@ -50,7 +67,7 @@ const Afgangselement = ({ data }: { data?: Departure }) => {
   );
 };
 
-const Afgangstavle = () => {
+const Afgangstavle = ({ sId }: { sId?: string }) => {
   const [data, setData] = useState<DataProps | undefined>(undefined);
   const [dataState, setDataState] = useState(false);
 
@@ -94,10 +111,18 @@ const Afgangstavle = () => {
 
   return (
     <>
-      <h1>{data?.Departure[0].stop}</h1>
+      {dataState && (
+        <span className={styles.title}>
+          <Link href={'./'} aria-label="Go to home page">
+            <i className="fa-solid fa-train-subway"></i>
+          </Link>
+          <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
+          <SearchBtn styles={styles.btn} />
+        </span>
+      )}
       {dataState && (
         <div className={styles.tripContainer}>
-          {data?.Departure.map((departure, index) => (
+          {data?.Departure.slice(0, 13).map((departure, index) => (
             <Afgangselement key={index} data={departure} />
           ))}
         </div>

@@ -3,15 +3,16 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 6rem;
+    padding: 2rem;
     min-height: 100dvh;
+    background-color: var(--bg-main);
 
 
 }
 
 @media screen and (max-width: 768px) {
     .main {
-        padding: 0rem;
+        padding: 1rem;
         justify-content: flex-start;
         font-size: 80%;
         height: 80vh;

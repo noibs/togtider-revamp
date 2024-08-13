@@ -36,7 +36,6 @@ export default function RootLayout({
         <ThemeApplier />
         <ThemeProvider attribute="data-theme">
           {children}
-          <HeadBtnContainer />
           <Watermark />
         </ThemeProvider>
       </body>
