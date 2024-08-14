@@ -4,6 +4,7 @@ import styles from './page.module.scss';
 import Loading from '../Loading';
 import Link from 'next/link';
 import SearchBtn, { openSearchPanel } from '../Buttons/SearchBtn';
+import Mapbox from '../Mapbox';
 
 interface Departure {
   name: string;
@@ -127,26 +128,40 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
 
   return (
     <>
-      {dataState && (
-        <span className={styles.title}>
-          {isMobile() ? (
-            <button className={styles.h1Btn} onClick={openSearchPanel}>
-              <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
-            </button>
-          ) : (
-            <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
-          )}
-          <SearchBtn styles={`${styles.btn} ${styles.secondaryBtn}`} />
-        </span>
+      {dataState ? (
+        isMobile() ? (
+          <>
+            <span className={styles.title}>
+              <button className={styles.h1Btn} onClick={openSearchPanel}>
+                <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
+              </button>
+              <SearchBtn styles={`${styles.btn} ${styles.secondaryBtn}`} />
+            </span>
+            <div className={styles.tripContainer}>
+              {data?.Departure.slice(0, 13).map((departure, index) => (
+                <Afgangselement key={index} data={departure} />
+              ))}
+            </div>
+          </>
+        ) : (
+          <div className={styles.content}>
+            <div>
+              <span className={styles.title}>
+                <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
+                <SearchBtn styles={`${styles.btn} ${styles.secondaryBtn}`} />
+              </span>
+              <div className={styles.tripContainer}>
+                {data?.Departure.slice(0, 13).map((departure, index) => (
+                  <Afgangselement key={index} data={departure} />
+                ))}
+              </div>
+            </div>
+            <Mapbox />
+          </div>
+        )
+      ) : (
+        <Loading />
       )}
-      {dataState && (
-        <div className={styles.tripContainer}>
-          {data?.Departure.slice(0, 13).map((departure, index) => (
-            <Afgangselement key={index} data={departure} />
-          ))}
-        </div>
-      )}
-      {!dataState && <Loading />}
     </>
   );
 };

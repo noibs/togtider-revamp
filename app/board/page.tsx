@@ -4,6 +4,7 @@ import Afgangstavle from '@/components/Afgangstavle';
 import HeadBtnContainer from '@/components/HeadBtnContainer';
 import SettingsPanel from '@/components/SettingsPanel';
 import { SearchPanel } from '@/components/SearchPanel';
+import Mapbox from '@/components/Mapbox';
 
 export default function Page() {
   return (
