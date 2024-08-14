@@ -15,6 +15,8 @@ interface Station {
   };
 }
 
+// !! Fix problem where destId and originId can become the same during singleSearch. !!
+
 export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
   // These two states are used to store the id of the origin and destination station
   const [originId, setOriginId] = useState<string | null>(null);
