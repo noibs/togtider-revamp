@@ -15,7 +15,7 @@ interface Station {
   };
 }
 
-const SearchPanel = () => {
+export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
   // These two states are used to store the id of the origin and destination station
   const [originId, setOriginId] = useState<string | null>(null);
   const [destId, setDestId] = useState<string | null>(null);
@@ -195,7 +195,7 @@ const SearchPanel = () => {
       (event.target as HTMLInputElement).blur();
 
       // If the user presses escape while in the top input, the bottom input is focused
-      if (inputType === 'origin') {
+      if (inputType === 'origin' && !singleSearch) {
         const destinationInput = document.querySelector(
           '#destination-input'
         ) as HTMLInputElement;
@@ -205,7 +205,10 @@ const SearchPanel = () => {
       }
 
       // If the user presses enter while in the bottom input, the search button is activated
-      if (inputType === 'destination') {
+      if (
+        inputType === 'destination' ||
+        (singleSearch && inputType === 'origin')
+      ) {
         const submitBtn = document.querySelector(
           '#submitBtn'
         ) as HTMLButtonElement;
@@ -222,33 +225,36 @@ const SearchPanel = () => {
     const originInput = document.getElementById(
       'origin-input'
     ) as HTMLInputElement;
-    const destinationInput = document.getElementById(
+    const destinationInput = document?.getElementById(
       'destination-input'
     ) as HTMLInputElement;
 
     // Checks if the originId and dest are set, if not, an error message is displayed
-    if (!originId || !destId) {
-      showErrorMessage('Vælg start- og endestation.');
+    if (!originId || (!singleSearch && !destId)) {
+      showErrorMessage(
+        singleSearch ? 'Vælg en station.' : 'Vælg start- og endestation.'
+      );
 
       // Resets the input fields
       originInput.value = '';
-      destinationInput.value = '';
+      if (destinationInput) destinationInput.value = '';
       return;
     }
 
     // Checks if the originId and destId are the same, if so, an error message is displayed
     if (originId === destId) {
+      if (singleSearch) return;
       showErrorMessage('Start- og endestation kan ikke være det samme.');
 
       // Resets the input fields
       originInput.value = '';
-      destinationInput.value = '';
+      if (destinationInput) destinationInput.value = '';
       return;
     }
 
     // If no errors are presesnt, the originId and destId are saved to the local storage
     localStorage.setItem('originId', originId);
-    localStorage.setItem('destId', destId);
+    if (destId && destinationInput) localStorage.setItem('destId', destId);
 
     // Closes the panel
     closePanel();
@@ -267,7 +273,7 @@ const SearchPanel = () => {
     setTimeout(() => {
       // Resets the input fields
       originInput.value = '';
-      destinationInput.value = '';
+      if (destinationInput) destinationInput.value = '';
     }, 50);
   };
 
@@ -289,17 +295,21 @@ const SearchPanel = () => {
     <div className={styles.container} id="searchContainer">
       <div className={styles.card}>
         <span className={styles.head}>
-          <h2 className={styles.title}>Find rute</h2>
+          <h2 className={styles.title}>
+            {singleSearch ? 'Find afgangstavle' : 'Find rute'}
+          </h2>
           <button className={styles.x} onClick={closePanel}>
             <i className="fa-regular fa-xmark" />
           </button>
         </span>
         <p className={styles.description}>
-          Vælg start og destination for søge efter en rute.
+          {singleSearch
+            ? 'Vælg station.'
+            : 'Vælg start og destination for søge efter en rute.'}
         </p>
         <div className={styles.inputContainer}>
           <span className={styles.input}>
-            Start:
+            {singleSearch ? 'Station:' : 'Start:'}
             <input
               id="origin-input"
               type="text"
@@ -334,41 +344,51 @@ const SearchPanel = () => {
               </div>
             </div>
           )}
-          <span className={styles.input}>
-            Destination:
-            <input
-              id="destination-input"
-              type="text"
-              placeholder="Søg efter en station..."
-              onChange={(e) => handleInputChange(e, 'destination')}
-              onKeyDown={(e) => handleKeyDown(e, 'destination')}
-            />
-          </span>
-          {isResultsVisible && activeInput === 'destination' && (
-            <div className={styles.searchGroup}>
-              <div id="resultsContainer" className={styles.resultsContainer}>
-                {searchResults.length === 0 ? (
-                  <p id="no_results" className={styles.noResults}>
-                    Ingen resultater. Tjek listen over understøttede stationer{' '}
-                    <a target="_blank" href="/stationer">
-                      her
-                    </a>
-                    .
-                  </p>
-                ) : (
-                  searchResults.map((station) => (
-                    <p
-                      key={station.data.stationId}
-                      id="result"
-                      className={styles.result}
-                      onClick={() => handleResultClick(station, 'destination')}
-                    >
-                      {station.stationName}
-                    </p>
-                  ))
-                )}
-              </div>
-            </div>
+          {!singleSearch && (
+            <>
+              <span className={styles.input}>
+                Destination:
+                <input
+                  id="destination-input"
+                  type="text"
+                  placeholder="Søg efter en station..."
+                  onChange={(e) => handleInputChange(e, 'destination')}
+                  onKeyDown={(e) => handleKeyDown(e, 'destination')}
+                />
+              </span>
+              {isResultsVisible && activeInput === 'destination' && (
+                <div className={styles.searchGroup}>
+                  <div
+                    id="resultsContainer"
+                    className={styles.resultsContainer}
+                  >
+                    {searchResults.length === 0 ? (
+                      <p id="no_results" className={styles.noResults}>
+                        Ingen resultater. Tjek listen over understøttede
+                        stationer{' '}
+                        <a target="_blank" href="/stationer">
+                          her
+                        </a>
+                        .
+                      </p>
+                    ) : (
+                      searchResults.map((station) => (
+                        <p
+                          key={station.data.stationId}
+                          id="result"
+                          className={styles.result}
+                          onClick={() =>
+                            handleResultClick(station, 'destination')
+                          }
+                        >
+                          {station.stationName}
+                        </p>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -389,5 +409,3 @@ const SearchPanel = () => {
     </div>
   );
 };
-
-export default SearchPanel;

@@ -26,8 +26,6 @@ interface DataProps {
 const Afgangselement = ({ data }: { data?: Departure }) => {
   if (!data) return null;
 
-  let title = data.stop;
-
   let color = '#50ae30';
 
   if (data?.type === 'TOG') {
@@ -44,10 +42,6 @@ const Afgangselement = ({ data }: { data?: Departure }) => {
 
   if (data?.name.includes('Lokalbane')) {
     data.name = data.name.replace('Lokalbane', 'LB');
-  }
-
-  if (data?.stop.includes('(')) {
-    title = data.stop.split('(')[0];
   }
 
   return (
@@ -72,11 +66,10 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
   const [dataState, setDataState] = useState(false);
 
   const fetchData = async ({ id }: { id?: string }) => {
+    const stationId = localStorage.getItem('originId') || '6555';
     try {
       const res = await fetch(
-        `https://rejseplanen.dk/bin/rest.exe/departureBoard?id=${
-          id || '6555'
-        }&useBus=0&format=json`,
+        `https://rejseplanen.dk/bin/rest.exe/departureBoard?id=${stationId}&useBus=0&format=json`,
         {
           cache: 'no-store',
         }
@@ -95,12 +88,10 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
   };
 
   useEffect(() => {
-    const stationId = localStorage.getItem('originId') || '6555';
+    fetchData({});
+    const interval = setInterval(() => fetchData({}), 5000);
 
-    fetchData({ id: stationId });
-    // const interval = setInterval(() => fetchData({ id: stationId }), 5000);
-
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -108,6 +99,22 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
       setDataState(true);
     }
   }, [data]);
+
+  // We add an event listener for the custom event 'searchedChange' that is triggered when the user searches
+  useEffect(() => {
+    const handleCustomEvent = () => {
+      if (localStorage.getItem('searched') === 'true') {
+        fetchData({});
+        localStorage.removeItem('searched');
+      }
+    };
+
+    window.addEventListener('searchedChange', handleCustomEvent);
+
+    return () => {
+      window.removeEventListener('searchedChange', handleCustomEvent);
+    };
+  }, [fetchData]);
 
   return (
     <>
@@ -117,7 +124,7 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
             <i className="fa-solid fa-train-subway"></i>
           </Link>
           <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
-          <SearchBtn styles={styles.btn} />
+          <SearchBtn styles={`${styles.btn} ${styles.secondaryBtn}`} />
         </span>
       )}
       {dataState && (

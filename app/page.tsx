@@ -3,14 +3,14 @@ import Watermark from '@/components/Watermark';
 import TripsContainer from '@/components/TripsContainer';
 import HeadBtnContainer from '@/components/HeadBtnContainer';
 import SettingsPanel from '@/components/SettingsPanel';
-import SearchPanel from '@/components/SearchPanel';
+import { SearchPanel } from '@/components/SearchPanel';
 
 export default function Home() {
   return (
     <>
       <main className={styles.main}>
         <SettingsPanel />
-        <SearchPanel />
+        <SearchPanel singleSearch />
         <HeadBtnContainer />
 
         <div className={styles.header}>

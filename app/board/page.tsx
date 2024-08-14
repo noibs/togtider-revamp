@@ -3,6 +3,7 @@ import styles from './page.module.scss';
 import Afgangstavle from '@/components/Afgangstavle';
 import HeadBtnContainer from '@/components/HeadBtnContainer';
 import SettingsPanel from '@/components/SettingsPanel';
+import { SearchPanel } from '@/components/SearchPanel';
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <HeadBtnContainer />
       <SettingsPanel />
       <Afgangstavle />
+      <SearchPanel singleSearch />
     </main>
   );
 }

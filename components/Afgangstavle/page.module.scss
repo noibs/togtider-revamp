@@ -1,6 +1,7 @@
 .title {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 1rem;
 
     button {
@@ -79,7 +80,8 @@
     width: $btnSize;
     border: 3px solid var(--outline);
     border-radius: .75rem;
-    background-color: var(--main-color);
+    //background-color: var(--main-color);
+    background-color: green;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -106,25 +108,25 @@
 
     i {
         font-size: 1.3rem;
-        color: var(--text-main);
     }
-}
 
-.btn:hover {
-    scale: 1.1;
-}
+    &:hover {
+        scale: 1.1;
+    }
 
-.btn:active {
-    scale: .9;
+    &:active {
+        scale: .9;
+    }
 }
 
 .secondaryBtn {
     color: #181818;
+
+    &:hover {
+        background-color: var(--btn-hover);
+    }
 }
 
-.secondaryBtn:hover {
-    background-color: var(--btn-hover);
-}
 
 @media screen and (max-width: 768px) {
     .tripContainer {
