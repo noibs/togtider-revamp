@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './page.module.scss';
 import Loading from '../Loading';
 import Link from 'next/link';
-import SearchBtn from '../Buttons/SearchBtn';
+import SearchBtn, { openSearchPanel } from '../Buttons/SearchBtn';
 
 interface Departure {
   name: string;
@@ -22,6 +22,15 @@ interface DataProps {
   Departure: Departure[];
   DepartureBoard?: any;
 }
+
+const isMobile = () => {
+  const userAgent = navigator.userAgent;
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    userAgent
+  )
+    ? true
+    : false;
+};
 
 const Afgangselement = ({ data }: { data?: Departure }) => {
   if (!data) return null;
@@ -89,9 +98,9 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
 
   useEffect(() => {
     fetchData({});
-    const interval = setInterval(() => fetchData({}), 5000);
+    //const interval = setInterval(() => fetchData({}), 5000);
 
-    return () => clearInterval(interval);
+    //return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -120,10 +129,13 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
     <>
       {dataState && (
         <span className={styles.title}>
-          <Link href={'./'} aria-label="Go to home page">
-            <i className="fa-solid fa-train-subway"></i>
-          </Link>
-          <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
+          {isMobile() ? (
+            <button className={styles.h1Btn} onClick={openSearchPanel}>
+              <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
+            </button>
+          ) : (
+            <h1>{data?.Departure[0].stop.split('(')[0]}</h1>
+          )}
           <SearchBtn styles={`${styles.btn} ${styles.secondaryBtn}`} />
         </span>
       )}

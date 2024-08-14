@@ -52,7 +52,9 @@ const ThemeBtn = ({ styles }: { styles: string }) => {
   return (
     <button className={styles} onClick={handleClick} aria-label="Change Theme">
       <motion.i
-        className={`fa-solid ${theme === 'light' ? 'fa-moon' : 'fa-sun'}`}
+        className={`fa-solid ${
+          theme === 'light' ? 'fa-moon' : 'fa-sun-bright'
+        }`}
         animate={controls}
       ></motion.i>
     </button>

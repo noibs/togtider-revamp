@@ -6,6 +6,20 @@ import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
 // This varaible is used to prevent the user from clicking the button multiple times
 let isFetching = false;
 
+export const openSearchPanel = () => {
+  const searchContainer = document.querySelector(
+    '#searchContainer'
+  ) as HTMLElement;
+  if (searchContainer) {
+    // Adds the data-enabled attribute to the container to display the search panel
+    searchContainer.setAttribute('data-enabled', '');
+    // Sets a small timeout to animate the search panel
+    setTimeout(() => {
+      searchContainer.style.opacity = '1';
+    }, 10);
+  }
+};
+
 const SearchBtn = ({
   styles,
   click,
@@ -14,20 +28,6 @@ const SearchBtn = ({
   click?: () => void;
 }) => {
   const controls = useAnimationControls();
-
-  const openSearchPanel = () => {
-    const searchContainer = document.querySelector(
-      '#searchContainer'
-    ) as HTMLElement;
-    if (searchContainer) {
-      // Adds the data-enabled attribute to the container to display the search panel
-      searchContainer.setAttribute('data-enabled', '');
-      // Sets a small timeout to animate the search panel
-      setTimeout(() => {
-        searchContainer.style.opacity = '1';
-      }, 10);
-    }
-  };
 
   // This function is called when the user clicks the button, which calls the openSearchPanel function
   const handleClick = () => {

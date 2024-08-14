@@ -5,7 +5,6 @@
     gap: 1rem;
 
     button {
-        all: unset;
         cursor: pointer;
 
     }
@@ -74,14 +73,13 @@
 }
 
 .btn {
-    $btnSize: 3rem;
+    $btnSize: 2.5rem;
 
     height: $btnSize;
     width: $btnSize;
     border: 3px solid var(--outline);
     border-radius: .75rem;
-    //background-color: var(--main-color);
-    background-color: green;
+    background-color: var(--main-color);
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -108,6 +106,7 @@
 
     i {
         font-size: 1.3rem;
+        color: var(--text-main);
     }
 
     &:hover {
@@ -127,6 +126,13 @@
     }
 }
 
+.h1Btn {
+    background-color: var(--bg-color);
+    border: 2px solid var(--outline);
+    color: var(--text-main);
+    padding: 0.25rem 1rem;
+    border-radius: 0.75rem;
+}
 
 @media screen and (max-width: 768px) {
     .tripContainer {
@@ -159,6 +165,11 @@
         i {
             font-size: 1rem
         }
+    }
+
+    .btn,
+    .secondaryBtn {
+        display: none;
     }
 
 
