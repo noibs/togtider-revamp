@@ -3,6 +3,30 @@ import React, { useCallback, useEffect, useState } from 'react';
 import Map, { ViewStateChangeEvent } from 'react-map-gl';
 import styles from './page.module.scss';
 
+export const fetchData = async (
+  setViewState: React.Dispatch<React.SetStateAction<any>>
+) => {
+  const currentId = localStorage.getItem('originId') || '6555';
+
+  fetch('./data/stations.json')
+    .then((response) => response.json())
+    .then((data) => {
+      const station = data.find(
+        (station: any) => station.data.stationId === currentId
+      );
+      setViewState({
+        longitude: station.data.coords.lon,
+        latitude: station.data.coords.lat,
+        zoom: station.data.coords.zoom || 17,
+        pitch: station.data.coords.pitch || 60,
+        bearing: station.data.coords.bearing || -45,
+      });
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+};
+
 const Mapbox = ({ testing }: { testing?: boolean }) => {
   const [viewState, setViewState] = useState({
     longitude: 11.9778,
@@ -12,39 +36,17 @@ const Mapbox = ({ testing }: { testing?: boolean }) => {
     bearing: -45,
   });
 
-  const fetchData = async () => {
-    const currentId = localStorage.getItem('originId') || '6555';
-
-    fetch('./data/stations.json')
-      .then((response) => response.json())
-      .then((data) => {
-        const station = data.find(
-          (station: any) => station.data.stationId === currentId
-        );
-        setViewState({
-          longitude: station.data.coords.lon,
-          latitude: station.data.coords.lat,
-          zoom: station.data.coords.zoom || 17,
-          pitch: station.data.coords.pitch || 60,
-          bearing: station.data.coords.bearing || -45,
-        });
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  };
-
   const handleMove = (evt: ViewStateChangeEvent) => {
     setViewState(evt.viewState);
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData(setViewState);
   }, []);
 
   const handleCustomEvent = useCallback(() => {
     if (localStorage.getItem('searched') === 'true') {
-      fetchData();
+      fetchData(setViewState);
     }
   }, [fetchData]);
 

@@ -20,6 +20,28 @@
   z-index: 1;
 }
 
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 5rem;
+  width: 40rem;
+  z-index: 1;
+
+  i {
+    font-size: 5rem;
+    color: rgb(255, 174, 0);
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: var(--text-secondary);
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .tripContainer {
     gap: .5rem;

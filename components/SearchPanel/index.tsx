@@ -246,6 +246,7 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
     // Checks if the originId and destId are the same, if so, an error message is displayed
     if (originId === destId) {
       if (singleSearch) return;
+
       showErrorMessage('Start- og endestation kan ikke være det samme.');
 
       // Resets the input fields

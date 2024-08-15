@@ -41,6 +41,8 @@ const TripsContainer = () => {
   const [trips, setTrips] = useState({ trip1: null, trip2: null, trip3: null });
   // The state that determines if the page is loading
   const [loading, setLoading] = useState(true);
+  // The state that if en error occured
+  const [error, setError] = useState(false);
 
   // The fetch function that gets the trips from the Rejseplanen API
   const fetchTrips = useCallback(async () => {
@@ -48,7 +50,15 @@ const TripsContainer = () => {
     originId = localStorage?.getItem('originId') || ringstedId;
     destId = localStorage?.getItem('destId') || roskildeId;
 
+    if (originId === destId) {
+      originId = ringstedId;
+      destId = roskildeId;
+      localStorage.setItem('originId', originId);
+      localStorage.setItem('destId', destId);
+    }
+
     setLoading(true);
+    setError(false);
     // We add the loading class to the tripContainer
     const tripContainer = document.querySelectorAll('#trip');
     tripContainer.forEach((element) => element.classList.add('loading'));
@@ -193,6 +203,7 @@ const TripsContainer = () => {
 
         loadSkeleton = false;
         setLoading(false);
+        setError(true);
 
         const loaderElement = document.querySelector('#loader');
         loaderElement?.classList.add('loading');
@@ -263,10 +274,17 @@ const TripsContainer = () => {
         {trips.trip1 && <TrainCard trip={trips.trip1} />}
         {trips.trip2 && <TrainCard trip={trips.trip2} />}
         {trips.trip3 && <TrainCard trip={trips.trip3} />}
-        {!trips.trip1 && !trips.trip2 && trips.trip3 && (
-          <h2>No trips were found.</h2>
-        )}
       </div>
+      {error && (
+        <div className={styles.errorContainer}>
+          <i className="fa-regular fa-triangle-exclamation"></i>
+          <h2>Der opstod en fejl</h2>
+          <p>
+            Der opstod en fejl, du har muligvis ikke nogen forbindelse til
+            internettet. Prøv at opdatere siden.
+          </p>
+        </div>
+      )}
       {!loadSkeleton && (
         <BtnContainer refreshBtn={updateTrips} swapBtn={swapTrips} />
       )}

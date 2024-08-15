@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './page.module.scss';
 import Loading from '../Loading';
-import Link from 'next/link';
 import SearchBtn, { openSearchPanel } from '../Buttons/SearchBtn';
 import Mapbox from '../Mapbox';
 
@@ -75,7 +74,7 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
   const [data, setData] = useState<DataProps | undefined>(undefined);
   const [dataState, setDataState] = useState(false);
 
-  const fetchData = async ({ id }: { id?: string }) => {
+  const fetchData = async () => {
     const stationId = localStorage.getItem('originId') || '6555';
     try {
       const res = await fetch(
@@ -98,8 +97,8 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
   };
 
   useEffect(() => {
-    fetchData({});
-    //const interval = setInterval(() => fetchData({}), 5000);
+    fetchData();
+    //const interval = setInterval(() => fetchData(), 5000);
 
     //return () => clearInterval(interval);
   }, []);
@@ -112,19 +111,18 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
 
   // We add an event listener for the custom event 'searchedChange' that is triggered when the user searches
   useEffect(() => {
-    const handleCustomEvent = () => {
-      if (localStorage.getItem('searched') === 'true') {
-        fetchData({});
-        localStorage.removeItem('searched');
-      }
+    const handleSearchedChange = (event: any) => {
+      const { originId, destId } = event.detail;
+      console.log('Searched Change Event:', originId, destId);
+      fetchData();
     };
 
-    window.addEventListener('searchedChange', handleCustomEvent);
+    window.addEventListener('searchedChange', handleSearchedChange);
 
     return () => {
-      window.removeEventListener('searchedChange', handleCustomEvent);
+      window.removeEventListener('searchedChange', handleSearchedChange);
     };
-  }, [fetchData]);
+  }, []);
 
   return (
     <>
