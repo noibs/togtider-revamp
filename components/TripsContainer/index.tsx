@@ -43,6 +43,8 @@ const TripsContainer = () => {
   const [loading, setLoading] = useState(true);
   // The state that if en error occured
   const [error, setError] = useState(false);
+  // The state that determines if the trip has multiple stops
+  const [multiStop, setMultiStop] = useState([false, false, false]);
 
   // The fetch function that gets the trips from the Rejseplanen API
   const fetchTrips = useCallback(async () => {
@@ -59,6 +61,7 @@ const TripsContainer = () => {
 
     setLoading(true);
     setError(false);
+    setMultiStop([false, false, false]);
     // We add the loading class to the tripContainer
     const tripContainer = document.querySelectorAll('#trip');
     tripContainer.forEach((element) => element.classList.add('loading'));
@@ -163,19 +166,34 @@ const TripsContainer = () => {
         // We get the first three trips from the response, we check if they trip has multiple legs (stops) or not. (This will be used later)
         const trip1 = data.TripList.Trip[0]?.Leg
           ? Array.isArray(data.TripList.Trip[0].Leg)
-            ? data.TripList.Trip[0].Leg[0]
+            ? (setMultiStop((prev) => {
+                const newState = [...prev];
+                newState[0] = true;
+                return newState;
+              }),
+              data.TripList.Trip[0].Leg[0])
             : data.TripList.Trip[0].Leg
           : null;
 
         const trip2 = data.TripList.Trip[1]?.Leg
           ? Array.isArray(data.TripList.Trip[1].Leg)
-            ? data.TripList.Trip[1].Leg[0]
+            ? (setMultiStop((prev) => {
+                const newState = [...prev];
+                newState[1] = true;
+                return newState;
+              }),
+              data.TripList.Trip[1].Leg[0])
             : data.TripList.Trip[1].Leg
           : null;
 
         const trip3 = data.TripList.Trip[2]?.Leg
           ? Array.isArray(data.TripList.Trip[2].Leg)
-            ? data.TripList.Trip[2].Leg[0]
+            ? (setMultiStop((prev) => {
+                const newState = [...prev];
+                newState[2] = true;
+                return newState;
+              }),
+              data.TripList.Trip[2].Leg[0])
             : data.TripList.Trip[2].Leg
           : null;
 
@@ -187,7 +205,6 @@ const TripsContainer = () => {
         }, 50);
 
         loadSkeleton = false;
-
         // This loader is used on the initial load to ensure a smooth page load.
         const loaderElement = document.querySelector('#loader');
         loaderElement?.classList.add('loading');
@@ -271,9 +288,15 @@ const TripsContainer = () => {
           </>
         )}
 
-        {trips.trip1 && <TrainCard trip={trips.trip1} />}
-        {trips.trip2 && <TrainCard trip={trips.trip2} />}
-        {trips.trip3 && <TrainCard trip={trips.trip3} />}
+        {trips.trip1 && (
+          <TrainCard trip={trips.trip1} multiStop={multiStop[0]} />
+        )}
+        {trips.trip2 && (
+          <TrainCard trip={trips.trip2} multiStop={multiStop[1]} />
+        )}
+        {trips.trip3 && (
+          <TrainCard trip={trips.trip3} multiStop={multiStop[2]} />
+        )}
       </div>
       {error && (
         <div className={styles.errorContainer}>

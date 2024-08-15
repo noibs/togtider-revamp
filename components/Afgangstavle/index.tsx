@@ -98,9 +98,9 @@ const Afgangstavle = ({ sId }: { sId?: string }) => {
 
   useEffect(() => {
     fetchData();
-    //const interval = setInterval(() => fetchData(), 5000);
+    const interval = setInterval(() => fetchData(), 5000);
 
-    //return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {

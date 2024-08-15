@@ -56,11 +56,34 @@
     /* Center the line vertically */
 }
 
-.arrow {
+.center {
+    display: flex;
+    justify-content: space-between;
+
     // width: 20px;
-    margin: 10px 10px 10px 0px;
+    margin: 10px 0px;
+
+    color: var(--text-main);
 
     i {
         font-size: 1.2rem;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        margin-left: auto;
+        font-size: .75rem;
+
+        i {
+            font-size: 0.8rem;
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        div {
+            font-size: 0.65rem;
+        }
     }
 }
