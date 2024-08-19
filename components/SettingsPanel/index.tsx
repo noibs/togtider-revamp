@@ -3,6 +3,7 @@ when the settings button is clicked. It contains two settings that the user can 
 'use client';
 import React, { useEffect, useState } from 'react';
 import styles from './page.module.scss';
+import ThemeBtn from '../Buttons/ThemeBtn';
 
 const SettingsPanel = () => {
   const [useLocation, setUseLocation] = useState(false);
@@ -68,6 +69,7 @@ const SettingsPanel = () => {
       <div className={styles.card}>
         <span className={styles.head}>
           <h2>Indstillinger</h2>
+          <ThemeBtn styles={styles.themeBtn} />
           <button className={styles.x} onClick={closePanel}>
             <i className="fa-regular fa-xmark" />
           </button>
@@ -86,12 +88,6 @@ const SettingsPanel = () => {
             >
               {useLocation ? 'Slå fra' : 'Slå til'}
             </button>
-          </div>
-
-          <div className={styles.setting}>
-            <h3>Sprogskifte</h3>
-            <p>Togtider er også tilgængelig på engelsk. Skift forneden:</p>
-            <button aria-label="Change language">Skift sprog</button>
           </div>
 
           <div className={styles.setting}>

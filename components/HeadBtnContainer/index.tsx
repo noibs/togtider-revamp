@@ -4,14 +4,18 @@ import styles from './page.module.scss';
 import ThemeBtn from '../Buttons/ThemeBtn';
 import SettingsBtn from '../Buttons/SettingsBtn';
 import HomeBtn from '../Buttons/HomeBtn';
+import BoardBtn from '../Buttons/BoardBtn';
 
 const HeadBtnContainer = ({ home }: { home?: boolean }) => {
   return (
     <>
       {!home && <HomeBtn styles={`${styles.left} ${styles.btn}`} />}
       <div className={styles.btnContainer}>
-        <ThemeBtn styles={styles.btn} />
-        <SettingsBtn styles={styles.btn} />
+        {home && <BoardBtn styles={styles.btn} />}
+        <div className={styles.right}>
+          <ThemeBtn styles={styles.btn} />
+          <SettingsBtn styles={styles.btn} />
+        </div>
       </div>
     </>
   );

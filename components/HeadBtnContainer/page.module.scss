@@ -2,6 +2,7 @@
 .btnContainer {
     display: flex;
     position: absolute;
+    flex-direction: row;
     right: 0;
     top: 0;
     gap: 0.5rem;
@@ -9,6 +10,38 @@
     margin: 0.75rem;
     z-index: 0;
 
+
+
+}
+
+@media screen and (max-width: 768px) {
+    .btnContainer {
+        justify-content: space-between;
+        width: 100%;
+        padding-left: 1.5rem;
+
+    }
+
+    .right:not(:has(:nth-child(2))),
+    .btnContainer {
+        justify-content: flex-end;
+    }
+
+
+
+
+}
+
+.right {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.right .btn:first-child {
+    @media screen and (max-width: 768px) {
+        display: none;
+
+    }
 }
 
 // Button styles
@@ -22,7 +55,7 @@
     background-color: var(--bg-main);
     cursor: pointer;
 
-    transition-duration: 0.2s;
+    transition-duration: 0.1s;
     transition-timing-function: ease;
     transition-property: background-color scale;
 
