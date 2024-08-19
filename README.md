@@ -3,6 +3,8 @@
 Togtider is a simple and intuitive dashboard to check upcoming trains on your prefered route. <br>
 It's works using the Danish Rejseplanen API and aims to give you all the information you need, as quickly as possible.
 
+![image](https://github.com/user-attachments/assets/bc9829bf-c121-4643-b15e-940ac182df51)
+
 ## Features
 
 ### ✅ - Added ❌ - WIP
@@ -14,8 +16,7 @@ It's works using the Danish Rejseplanen API and aims to give you all the informa
 - Ability to choose custom routes - ✅
 - Ability to swap origin and destination with a push of a button - ✅
 - Dark mode - ✅
-- English as a language option - ❌
-- Location services integration
+- Location services integration ✅
 
 #
 
