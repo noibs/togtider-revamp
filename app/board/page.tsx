@@ -4,15 +4,16 @@ import Afgangstavle from '@/components/Afgangstavle';
 import HeadBtnContainer from '@/components/HeadBtnContainer';
 import SettingsPanel from '@/components/SettingsPanel';
 import { SearchPanel } from '@/components/SearchPanel';
-import Mapbox from '@/components/Mapbox';
 
 export default function Page() {
   return (
-    <main className={styles.main}>
-      <HeadBtnContainer />
-      <SettingsPanel />
-      <Afgangstavle />
-      <SearchPanel singleSearch />
-    </main>
+    <>
+      <main className={styles.main}>
+        <HeadBtnContainer />
+        <SettingsPanel />
+        <Afgangstavle />
+        <SearchPanel singleSearch />
+      </main>
+    </>
   );
 }

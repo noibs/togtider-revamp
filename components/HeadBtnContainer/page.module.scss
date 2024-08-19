@@ -105,6 +105,7 @@
     top: 0;
     margin: 0.75rem;
     border-radius: .75rem;
+    z-index: 10;
 
     i {
         font-size: 1.1rem;
@@ -126,7 +127,7 @@ html[data-theme='dark'] .btn:hover {
 
 html[data-apple-web-app="true"] {
     .btnContainer {
-        justify-content: space-between;
+        //justify-content: space-between;
         width: 100%;
         padding-left: 1.5rem;
         z-index: unset;

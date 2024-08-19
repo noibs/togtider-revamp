@@ -13,10 +13,6 @@ export const metadata: Metadata = {
   manifest: './manifest.json',
 };
 
-export const viewport: Viewport = {
-  themeColor: '#fff',
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,8 +27,8 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <ThemeApplier />
         <ThemeProvider attribute="data-theme">{children}</ThemeProvider>
+        <ThemeApplier />
       </body>
     </html>
   );

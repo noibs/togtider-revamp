@@ -48,7 +48,7 @@ const Mapbox = ({ testing }: { testing?: boolean }) => {
     if (localStorage.getItem('searched') === 'true') {
       fetchData(setViewState);
     }
-  }, [fetchData]);
+  }, []);
 
   useEffect(() => {
     window.addEventListener('searchedChange', handleCustomEvent);
