@@ -163,39 +163,24 @@ const TripsContainer = () => {
 
         const data = await res.json();
 
-        // We get the first three trips from the response, we check if they trip has multiple legs (stops) or not. (This will be used later)
-        const trip1 = data.TripList.Trip[0]?.Leg
-          ? Array.isArray(data.TripList.Trip[0].Leg)
-            ? (setMultiStop((prev) => {
-                const newState = [...prev];
-                newState[0] = true;
-                return newState;
-              }),
-              data.TripList.Trip[0].Leg[0])
-            : data.TripList.Trip[0].Leg
-          : null;
+        // We get the first three trips from the response, checking if each trip has multiple legs (stops)
+        const trips = [0, 1, 2].map(index => {
+          const trip = data.TripList.Trip[index]?.Leg;
+          if (!trip) return null;
+          
+          if (Array.isArray(trip)) {
+            setMultiStop(prev => {
+              const newState = [...prev];
+              newState[index] = true;
+              return newState;
+            });
+            return trip[0];
+          }
+          
+          return trip;
+        });
 
-        const trip2 = data.TripList.Trip[1]?.Leg
-          ? Array.isArray(data.TripList.Trip[1].Leg)
-            ? (setMultiStop((prev) => {
-                const newState = [...prev];
-                newState[1] = true;
-                return newState;
-              }),
-              data.TripList.Trip[1].Leg[0])
-            : data.TripList.Trip[1].Leg
-          : null;
-
-        const trip3 = data.TripList.Trip[2]?.Leg
-          ? Array.isArray(data.TripList.Trip[2].Leg)
-            ? (setMultiStop((prev) => {
-                const newState = [...prev];
-                newState[2] = true;
-                return newState;
-              }),
-              data.TripList.Trip[2].Leg[0])
-            : data.TripList.Trip[2].Leg
-          : null;
+        const [trip1, trip2, trip3] = trips;
 
         // 50 ms delay to ensure smooth loading transition.
         setTimeout(() => {
