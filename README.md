@@ -1,6 +1,6 @@
 <h1>Togtider</h1>
 
-Togtider is a simple and intuitive dashboard to check upcoming trains on your prefered route. <br>
+Togtider _(Traintimes in Danish)_ is a simple and intuitive dashboard to check upcoming trains on your prefered route. <br>
 It's works using the Danish [Rejseplanen API](https://help.rejseplanen.dk/hc/da/articles/214174465-Rejseplanens-API) and aims to give you all the information you need, as quickly as possible.
 
 [![GitHub Release](https://img.shields.io/github/release/noibs/togtider-revamp)](https://github.com/noibs/togtider-revamp/releases)
