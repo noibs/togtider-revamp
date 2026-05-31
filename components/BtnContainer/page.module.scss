@@ -6,10 +6,8 @@
 
     @media screen and (max-width: 768px) {
         gap: 0.5rem;
-
     }
 }
-
 
 .btn {
     $btnSize: 3rem;
@@ -17,7 +15,7 @@
     height: $btnSize;
     width: $btnSize;
     border: 3px solid var(--outline);
-    border-radius: .75rem;
+    border-radius: 0.75rem;
     background-color: var(--main-color);
     cursor: pointer;
     display: flex;
@@ -27,20 +25,19 @@
     transition-duration: 0.2s;
     transition-timing-function: ease;
     transition-property: background-color scale;
-
+    will-change: transform;
 
     svg {
-        $iconSize: 50%;
+        $iconSize: 55%;
 
         width: $iconSize;
         height: $iconSize;
-        fill: #fff;
-        color: #fff;
+        color: var(--text-main);
+        will-change: transform;
     }
 
     @media screen and (max-width: 768px) {
         border-radius: 2rem;
-
     }
 
     i {
@@ -54,9 +51,8 @@
 }
 
 .btn:active {
-    scale: .9;
+    scale: 0.9;
 }
-
 
 // Primary button styles (Middle refresh)
 .primaryBtn {
@@ -68,7 +64,8 @@
 
     color: #fff;
 
-    i {
+    i,
+    svg {
         color: #fff;
     }
 
@@ -102,7 +99,6 @@
 }
 
 html[data-apple-web-app="true"] {
-
     .btnContainer {
         gap: 1.5rem;
         margin: 2rem;

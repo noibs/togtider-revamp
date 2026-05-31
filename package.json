@@ -13,6 +13,7 @@
     "@mapbox/mapbox-gl-geocoder": "^5.0.2",
     "dotenv": "^16.4.5",
     "framer-motion": "^11.3.21",
+    "lucide-react": "^1.17.0",
     "mapbox-gl": "^3.6.0",
     "next": "14.2.35",
     "next-themes": "^0.3.0",

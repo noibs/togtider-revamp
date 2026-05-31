@@ -30,8 +30,11 @@
   width: 40rem;
   z-index: 1;
 
-  i {
+  i,
+  svg {
     font-size: 5rem;
+    width: 5rem;
+    height: 5rem;
     color: rgb(255, 174, 0);
     margin-bottom: 1rem;
   }

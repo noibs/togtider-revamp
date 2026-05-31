@@ -1,5 +1,6 @@
 // This component contains the train cards that display information about upcoming trips.
 import React from 'react';
+import { ChevronsDown, Info } from 'lucide-react';
 import styles from './page.module.scss';
 
 // The custom interface for the trip object
@@ -62,10 +63,10 @@ const TrainCard = ({
       </div>
 
       <div className={styles.center}>
-        <i className="fa-solid fa-chevrons-down"></i>
+        <ChevronsDown />
         {multiStop && (
           <div>
-            <i className="fa-regular fa-circle-info"></i>
+            <Info />
             <p>Denne rute indeholder flere stop.</p>
           </div>
         )}

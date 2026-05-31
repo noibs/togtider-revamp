@@ -5,10 +5,6 @@
     padding: 25px;
     border-radius: 2vh;
     background-color: var(--bg-main);
-    transition-duration: 0.1s;
-    transition-timing-function: ease-in-out;
-    transition-property: box-shadow scale;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -17,15 +13,8 @@
         width: 70vw;
         height: 23vh;
         justify-content: space-between;
-
     }
 }
-
-.container:hover {
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-    scale: 1.01;
-}
-
 .span {
     display: flex;
     align-items: center;
@@ -43,7 +32,7 @@
 }
 
 .delayed::before {
-    content: '';
+    content: "";
     background-color: rgb(185, 0, 0);
     height: 3px;
     width: 100%;
@@ -69,15 +58,25 @@
         font-size: 1.2rem;
     }
 
+    > svg {
+        width: 1.4rem;
+        height: 1.4rem;
+    }
+
     div {
         display: flex;
         align-items: center;
         gap: 5px;
         margin-left: auto;
-        font-size: .75rem;
+        font-size: 0.75rem;
 
         i {
             font-size: 0.8rem;
+        }
+
+        svg {
+            width: 0.9rem;
+            height: 0.9rem;
         }
     }
 

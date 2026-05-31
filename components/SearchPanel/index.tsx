@@ -1,13 +1,15 @@
 // This component contains the search panel and all it's function. It's used to search for routes between two stations.
 'use client';
 import React, { useState, useEffect } from 'react';
+import { Info, X } from 'lucide-react';
 import styles from './page.module.scss';
 
-// This interface is used to define the structure of the station object
+// This interface is used to define the structure of the station object.
+// stationId is the v2 extId (7-digit string like "8600617").
 interface Station {
   stationName: string;
   data: {
-    stationId: number;
+    stationId: string;
     coords: {
       lat: number;
       lon: number;
@@ -15,15 +17,10 @@ interface Station {
   };
 }
 
-// !! Fix problem where destId and originId can become the same during singleSearch. !!
-
-export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
+export const SearchPanel = () => {
   // These two states are used to store the id of the origin and destination station
   const [originId, setOriginId] = useState<string | null>(null);
   const [destId, setDestId] = useState<string | null>(null);
-
-  // This state is used to store all available the stations
-  const [stations, setStations] = useState<Station[]>([]);
 
   // This state is used to store the search results
   const [searchResults, setSearchResults] = useState<Station[]>([]);
@@ -56,27 +53,8 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
     }, 10);
   };
 
-  // This useEffect hook is used to fetch the stations from the server on component mount
-  useEffect(() => {
-    fetch('./data/stations.json')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Failed to fetch stations');
-        }
-        return res.json();
-      })
-      .then((data: Station[]) => {
-        // Sort the stations alphabetically
-        const sortedStations = data.sort((a, b) =>
-          a.stationName.localeCompare(b.stationName)
-        );
-        // Save the sorted stations to the state
-        setStations(sortedStations);
-      })
-      .catch((err) => {
-        console.error('There was an error fetching the stations', err);
-      });
-  }, []);
+  // Search hits the Rejseplanen v2 location.name endpoint directly so saved
+  // IDs are valid v2 extIds. No upfront stations.json fetch needed.
 
   // This useEffect hook is used to show the search results when the state changes
   useEffect(() => {
@@ -131,17 +109,37 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
     };
   }, [isResultsVisible]);
 
-  // This function is used to search for stations based on the query
-  const searchStation = (query: string) => {
-    return (
-      stations
-        .filter((station) =>
-          // Makes the search case insensitive for better matching
-          station.stationName.toLowerCase().includes(query.toLowerCase())
-        )
-        // Limits the search results to 5
-        .slice(0, 5)
-    );
+  // Debounce + abort handles for live search.
+  const searchDebounce = React.useRef<ReturnType<typeof setTimeout> | null>(
+    null
+  );
+  const searchAbort = React.useRef<AbortController | null>(null);
+
+  // Calls Rejseplanen v2 location.name and reshapes the result into Station[].
+  const searchStation = async (query: string): Promise<Station[]> => {
+    searchAbort.current?.abort();
+    const controller = new AbortController();
+    searchAbort.current = controller;
+
+    const url =
+      `/api/rejseplanen/location.name?input=${encodeURIComponent(query)}` +
+      `&maxNo=8&type=S`;
+
+    const res = await fetch(url, { signal: controller.signal });
+    if (!res.ok) throw new Error(`Search failed: ${res.status}`);
+    const data = await res.json();
+
+    const list: any[] = data.stopLocationOrCoordLocation ?? [];
+    return list
+      .map((entry) => entry.StopLocation)
+      .filter(Boolean)
+      .map((stop) => ({
+        stationName: stop.name,
+        data: {
+          stationId: String(stop.extId),
+          coords: { lat: Number(stop.lat), lon: Number(stop.lon) },
+        },
+      }));
   };
 
   // This function is used to handle the input change event
@@ -151,10 +149,26 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
     inputType: 'origin' | 'destination'
   ) => {
     const query = event.target.value;
-    const results = searchStation(query);
-    setSearchResults(results);
-    setIsResultsVisible(true);
     setActiveInput(inputType);
+
+    if (query.trim().length < 2) {
+      setSearchResults([]);
+      setIsResultsVisible(false);
+      return;
+    }
+
+    setIsResultsVisible(true);
+
+    if (searchDebounce.current) clearTimeout(searchDebounce.current);
+    searchDebounce.current = setTimeout(() => {
+      searchStation(query)
+        .then(setSearchResults)
+        .catch((err) => {
+          if (err.name === 'AbortError') return;
+          console.error('Station search failed:', err);
+          setSearchResults([]);
+        });
+    }, 200);
   };
 
   // This function is used to handle the selection of a search result
@@ -170,9 +184,9 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
 
     // Sets the originId or destId based on the inputType
     if (inputType === 'origin') {
-      setOriginId(station.data.stationId.toString());
+      setOriginId(station.data.stationId);
     } else if (inputType === 'destination') {
-      setDestId(station.data.stationId.toString());
+      setDestId(station.data.stationId);
     }
 
     setIsResultsVisible(false);
@@ -196,8 +210,8 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
       handleResultClick(searchResults[0], inputType);
       (event.target as HTMLInputElement).blur();
 
-      // If the user presses escape while in the top input, the bottom input is focused
-      if (inputType === 'origin' && !singleSearch) {
+      // If the user presses enter while in the top input, the bottom input is focused
+      if (inputType === 'origin') {
         const destinationInput = document.querySelector(
           '#destination-input'
         ) as HTMLInputElement;
@@ -207,10 +221,7 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
       }
 
       // If the user presses enter while in the bottom input, the search button is activated
-      if (
-        inputType === 'destination' ||
-        (singleSearch && inputType === 'origin')
-      ) {
+      if (inputType === 'destination') {
         const submitBtn = document.querySelector(
           '#submitBtn'
         ) as HTMLButtonElement;
@@ -232,10 +243,8 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
     ) as HTMLInputElement;
 
     // Checks if the originId and dest are set, if not, an error message is displayed
-    if (!originId || (!singleSearch && !destId)) {
-      showErrorMessage(
-        singleSearch ? 'Vælg en station.' : 'Vælg start- og endestation.'
-      );
+    if (!originId || !destId) {
+      showErrorMessage('Vælg start- og endestation.');
 
       // Resets the input fields
       originInput.value = '';
@@ -245,8 +254,6 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
 
     // Checks if the originId and destId are the same, if so, an error message is displayed
     if (originId === destId) {
-      if (singleSearch) return;
-
       showErrorMessage('Start- og endestation kan ikke være det samme.');
 
       // Resets the input fields
@@ -295,24 +302,26 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
   };
 
   return (
-    <div className={styles.container} id="searchContainer">
+    <div
+      className={styles.container}
+      id="searchContainer"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) closePanel();
+      }}
+    >
       <div className={styles.card}>
         <span className={styles.head}>
-          <h2 className={styles.title}>
-            {singleSearch ? 'Find afgangstavle' : 'Find rute'}
-          </h2>
+          <h2 className={styles.title}>Find rute</h2>
           <button className={styles.x} onClick={closePanel}>
-            <i className="fa-regular fa-xmark" />
+            <X />
           </button>
         </span>
         <p className={styles.description}>
-          {singleSearch
-            ? 'Vælg station.'
-            : 'Vælg start og destination for søge efter en rute.'}
+          Vælg start og destination for søge efter en rute.
         </p>
         <div className={styles.inputContainer}>
           <span className={styles.input}>
-            {singleSearch ? 'Station:' : 'Start:'}
+            Start:
             <input
               id="origin-input"
               type="text"
@@ -347,57 +356,53 @@ export const SearchPanel = ({ singleSearch }: { singleSearch?: boolean }) => {
               </div>
             </div>
           )}
-          {!singleSearch && (
-            <>
-              <span className={styles.input}>
-                Destination:
-                <input
-                  id="destination-input"
-                  type="text"
-                  placeholder="Søg efter en station..."
-                  onChange={(e) => handleInputChange(e, 'destination')}
-                  onKeyDown={(e) => handleKeyDown(e, 'destination')}
-                />
-              </span>
-              {isResultsVisible && activeInput === 'destination' && (
-                <div className={styles.searchGroup}>
-                  <div
-                    id="resultsContainer"
-                    className={styles.resultsContainer}
-                  >
-                    {searchResults.length === 0 ? (
-                      <p id="no_results" className={styles.noResults}>
-                        Ingen resultater. Tjek listen over understøttede
-                        stationer{' '}
-                        <a target="_blank" href="/stationer">
-                          her
-                        </a>
-                        .
-                      </p>
-                    ) : (
-                      searchResults.map((station) => (
-                        <p
-                          key={station.data.stationId}
-                          id="result"
-                          className={styles.result}
-                          onClick={() =>
-                            handleResultClick(station, 'destination')
-                          }
-                        >
-                          {station.stationName}
-                        </p>
-                      ))
-                    )}
-                  </div>
-                </div>
-              )}
-            </>
+          <span className={styles.input}>
+            Destination:
+            <input
+              id="destination-input"
+              type="text"
+              placeholder="Søg efter en station..."
+              onChange={(e) => handleInputChange(e, 'destination')}
+              onKeyDown={(e) => handleKeyDown(e, 'destination')}
+            />
+          </span>
+          {isResultsVisible && activeInput === 'destination' && (
+            <div className={styles.searchGroup}>
+              <div
+                id="resultsContainer"
+                className={styles.resultsContainer}
+              >
+                {searchResults.length === 0 ? (
+                  <p id="no_results" className={styles.noResults}>
+                    Ingen resultater. Tjek listen over understøttede
+                    stationer{' '}
+                    <a target="_blank" href="/stationer">
+                      her
+                    </a>
+                    .
+                  </p>
+                ) : (
+                  searchResults.map((station) => (
+                    <p
+                      key={station.data.stationId}
+                      id="result"
+                      className={styles.result}
+                      onClick={() =>
+                        handleResultClick(station, 'destination')
+                      }
+                    >
+                      {station.stationName}
+                    </p>
+                  ))
+                )}
+              </div>
+            </div>
           )}
         </div>
 
         <div className={styles.btnContainer}>
           <div id="error" className={styles.error}>
-            <i className="fa-regular fa-circle-info"></i>
+            <Info />
             <p id="error-msg">Start- og endestation kan ikke være det samme.</p>
           </div>
           <button

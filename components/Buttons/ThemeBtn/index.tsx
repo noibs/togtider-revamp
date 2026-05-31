@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
+import { Moon, Sun } from 'lucide-react';
 
 // This variable is used to prevent the user from clicking the button multiple times
 let isFetching = false;
@@ -51,12 +52,19 @@ const ThemeBtn = ({ styles }: { styles: string }) => {
 
   return (
     <button className={styles} onClick={handleClick} aria-label="Change Theme">
-      <motion.i
-        className={`fa-solid ${
-          theme === 'light' ? 'fa-moon' : 'fa-sun-bright'
-        }`}
+      <motion.span
         animate={controls}
-      ></motion.i>
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+          willChange: 'transform',
+        }}
+      >
+        {theme === 'light' ? <Moon /> : <Sun />}
+      </motion.span>
     </button>
   );
 };

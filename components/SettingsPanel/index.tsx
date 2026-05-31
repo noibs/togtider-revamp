@@ -2,6 +2,7 @@
 when the settings button is clicked. It contains two settings that the user can change. */
 'use client';
 import React, { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 import styles from './page.module.scss';
 import ThemeBtn from '../Buttons/ThemeBtn';
 
@@ -65,13 +66,19 @@ const SettingsPanel = () => {
   }, []);
 
   return (
-    <div className={styles.container} id="settingsContainer">
+    <div
+      className={styles.container}
+      id="settingsContainer"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) closePanel();
+      }}
+    >
       <div className={styles.card}>
         <span className={styles.head}>
           <h2>Indstillinger</h2>
           <ThemeBtn styles={styles.themeBtn} />
           <button className={styles.x} onClick={closePanel}>
-            <i className="fa-regular fa-xmark" />
+            <X />
           </button>
         </span>
 

@@ -12,7 +12,8 @@
     opacity: 0;
     transform: translateY(-20%);
 
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    will-change: opacity, transform;
 }
 
 .container[data-enabled] {
@@ -97,9 +98,12 @@
 
     cursor: pointer;
 
-    i {
+    i,
+    svg {
         color: #7e7e7e;
         font-size: 1.2rem;
+        width: 1.4rem;
+        height: 1.4rem;
 
         transition: color 0.1s ease;
 
@@ -115,7 +119,8 @@
     }
 }
 
-html[data-theme='dark'] .x i:hover {
+html[data-theme='dark'] .x i:hover,
+html[data-theme='dark'] .x svg:hover {
     color: #fff;
 }
 

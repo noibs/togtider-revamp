@@ -58,6 +58,7 @@
     transition-duration: 0.1s;
     transition-timing-function: ease;
     transition-property: background-color scale;
+    will-change: transform;
 
 
     svg {
@@ -65,9 +66,9 @@
 
         width: $iconSize;
         height: $iconSize;
-        fill: var(--outline);
+        color: var(--outline);
 
-        transition: fill 0.2s ease;
+        transition: color 0.2s ease;
     }
 
     i {
@@ -82,7 +83,6 @@
 
         svg,
         i {
-            fill: #333;
             color: #333;
         }
 
@@ -116,7 +116,6 @@ html[data-theme='dark'] .btn:hover {
 
     svg,
     i {
-        fill: #fff;
         color: #fff;
     }
 }

@@ -2,6 +2,7 @@
 'use client';
 import React from 'react';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
+import { Search } from 'lucide-react';
 
 // This varaible is used to prevent the user from clicking the button multiple times
 let isFetching = false;
@@ -60,10 +61,19 @@ const SearchBtn = ({
         onClick={handleClick}
         aria-label="search"
       >
-        <motion.i
+        <motion.span
           animate={controls}
-          className="fa-solid fa-magnifying-glass"
-        ></motion.i>
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+            willChange: 'transform',
+          }}
+        >
+          <Search />
+        </motion.span>
       </button>
     </>
   );

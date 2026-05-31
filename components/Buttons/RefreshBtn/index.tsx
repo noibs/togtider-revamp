@@ -2,6 +2,7 @@
 'use client';
 import React from 'react';
 import { cubicBezier, motion, useAnimationControls } from 'framer-motion';
+import { RefreshCw } from 'lucide-react';
 
 // This varaible is used to prevent the user from clicking the button multiple times
 let isFetching = false;
@@ -38,10 +39,19 @@ const RefreshBtn = ({
   return (
     <>
       <button className={styles} onClick={handleClick} aria-label="refresh">
-        <motion.i
+        <motion.span
           animate={controls}
-          className="fa-solid fa-arrows-rotate"
-        ></motion.i>
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+            willChange: 'transform',
+          }}
+        >
+          <RefreshCw />
+        </motion.span>
       </button>
     </>
   );
